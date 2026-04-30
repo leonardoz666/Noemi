@@ -358,10 +358,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     const l = lilies[i];
                     const t = (i / n) * Math.PI * 2;
                     const baseScale = Math.min(window.innerWidth, window.innerHeight) / 35;
-                    const scale = isMobileViewport ? baseScale * 0.76 : baseScale;
+                    const scale = isMobileViewport ? baseScale * 0.70 : baseScale;
                     const p = heartPoint(t, scale);
                     l.targetX = window.innerWidth / 2 + p.x;
-                    l.targetY = window.innerHeight / 2 + p.y - (isMobileViewport ? 132 : 80);
+                    l.targetY = window.innerHeight / 2 + p.y - (isMobileViewport ? 108 : 80);
                     // Reaplicar o alvo intermediário conforme progresso atual
                     const fraction = (window.__heartProgressFraction ?? 0);
                     l.tx = l.startX + (l.targetX - l.startX) * fraction;
@@ -481,10 +481,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 // posição alvo no coração (calculada mas não aplicada ainda)
                 const t = (i / n) * Math.PI * 2;
                 const baseScale = Math.min(window.innerWidth, window.innerHeight) / 35;
-                const scale = isMobileViewport ? baseScale * 0.76 : baseScale;
+                const scale = isMobileViewport ? baseScale * 0.70 : baseScale;
                 const p = heartPoint(t, scale);
                 lily.targetX = window.innerWidth / 2 + p.x;
-                lily.targetY = window.innerHeight / 2 + p.y - (isMobileViewport ? 132 : 80);
+                lily.targetY = window.innerHeight / 2 + p.y - (isMobileViewport ? 108 : 80);
 
                 // Inicialmente, a posição atual é igual à posição inicial
                 lily.tx = x;
@@ -669,7 +669,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (shouldShowParticles && heartPulseTime - lastParticleTime >= 0.02) { // Mais frequente
                 const centerX = window.innerWidth / 2;
-                const centerY = window.innerHeight / 2 + (window.matchMedia('(max-width: 768px)').matches ? -24 : 10);
+                const centerY = window.innerHeight / 2 + (window.matchMedia('(max-width: 768px)').matches ? -6 : 10);
 
                 // Calcular escala baseada no progresso (0.6 a 1.5) - ainda maior
                 const heartScale = Math.max(0.6, heartProgress * 0.9 + 0.6);
@@ -760,7 +760,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const progressContainer = document.createElement('div');
         progressContainer.style.cssText = `
             position: fixed;
-            bottom: ${isMobileViewport ? 108 : 20}px;
+            bottom: ${isMobileViewport ? 64 : 20}px;
             left: 50%;
             transform: translateX(-50%);
             width: min(420px, calc(100dvw - 24px));

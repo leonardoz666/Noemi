@@ -8,9 +8,6 @@ document.addEventListener('DOMContentLoaded', () => {
         handR: document.querySelector(".hand-r")
     };
 
-    // Helper para detectar tela mobile
-    const isMobile = () => window.innerWidth <= 768;
-
     // *************** BACKGROUND GLOBAL (oculto até após login) ***************
     (function mountGlobalBackground() {
         if (!document.getElementById('siteBackground')) {
@@ -87,12 +84,12 @@ document.addEventListener('DOMContentLoaded', () => {
         audioPlayer.id = 'globalAudioPlayer';
         audioPlayer.style.cssText = `
             position: fixed;
-            bottom: ${isMobile() ? '10px' : '20px'};
-            right: ${isMobile() ? '10px' : '20px'};
-            width: ${isMobile() ? '160px' : '200px'};
+            bottom: 20px;
+            right: 20px;
+            width: 200px;
             background: rgba(40, 40, 40, 0);
             border-radius: 12px;
-            padding: ${isMobile() ? '6px' : '10px'};
+            padding: 10px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
             z-index: 20000;
             color: white;
@@ -429,7 +426,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return lilies;
         }
 
-        let lilies = generateLilies(isMobile() ? 60 : 160);
+        let lilies = generateLilies(160);
         let animationDone = false;
         let heartFormationStarted = false; // compat
         window.__heartProgressFraction = 0;
@@ -695,8 +692,8 @@ document.addEventListener('DOMContentLoaded', () => {
             bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
-            width: ${isMobile() ? '280px' : '420px'};
-            height: ${isMobile() ? '22px' : '28px'};
+            width: 420px;
+            height: 28px;
             background: rgba(255, 255, 255, 0.08);
             border-radius: 14px;
             overflow: visible;
@@ -738,8 +735,8 @@ document.addEventListener('DOMContentLoaded', () => {
             top: 50%;
             transform: translate(-50%, -50%);
             left: 0%;
-            width: ${isMobile() ? '28px' : '38px'};
-            height: ${isMobile() ? '28px' : '38px'};
+            width: 38px;
+            height: 38px;
             pointer-events: none;
             transition: left 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             z-index: 100;
@@ -757,7 +754,7 @@ document.addEventListener('DOMContentLoaded', () => {
             transform: translateX(-50%);
             color:rgb(255, 255, 255);
             font-family: 'Poppins', 'Segoe UI', 'Roboto', sans-serif;
-            font-size: ${isMobile() ? '14px' : '19px'};
+            font-size: 19px;
             font-weight: 600;
             text-shadow: 0 0 10px rgba(255, 105, 180, 0.8);
             white-space: nowrap;
@@ -963,15 +960,15 @@ document.addEventListener('DOMContentLoaded', () => {
             const questionContainer = document.createElement('div');
             questionContainer.style.cssText = `
                 text-align: center;
-                max-width: ${isMobile() ? '90vw' : '600px'};
-                padding: ${isMobile() ? '20px 15px' : '40px'};
+                max-width: 600px;
+                padding: 40px;
             `;
 
             const questionText = document.createElement('h2');
             questionText.textContent = questions[currentQuestion].question;
             questionText.style.cssText = `
-                font-size: ${isMobile() ? '20px' : '32px'};
-                margin-bottom: ${isMobile() ? '24px' : '40px'};
+                font-size: 32px;
+                margin-bottom: 40px;
                 color: #ffffff;
                 font-weight: 300;
                 letter-spacing: 1px;
@@ -981,7 +978,7 @@ document.addEventListener('DOMContentLoaded', () => {
             answersContainer.style.cssText = `
                 display: flex;
                 flex-direction: column;
-                gap: ${isMobile() ? '16px' : '28px'};
+                gap: 28px;
                 align-items: center;
             `;
 
@@ -999,7 +996,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 scopedStyles.id = 'quiz-envelope-styles';
                 scopedStyles.textContent = `
                 .quiz-envelope { position: relative; margin-top: 36px; }
-                .quiz-envelope .quiz-envelope-scale { transform: scale(${isMobile() ? '0.22' : '0.36'}); transform-origin: top center; }
+                .quiz-envelope .quiz-envelope-scale { transform: scale(0.36); transform-origin: top center; }
                 .quiz-envelope .valentines-day { position: relative; cursor: pointer; }
                 .quiz-envelope .envelope { position: relative; filter: drop-shadow(0 0 25px rgba(0,0,0,.3)); }
                 .quiz-envelope .envelope:before { content:""; position: absolute; width:254px; height:254px; background-color: #ff9494; transform: rotate(-45deg); border-radius: 0 15px 0 0; left:-37px; top:-82px; }
@@ -1013,9 +1010,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 .quiz-envelope .front:after { width:0; height:0; position: absolute; content:""; border-bottom: 150px solid #fce7e9; border-right:180px solid transparent; border-left: 180px solid transparent; top:-36px; left:-170px; }
                 .quiz-envelope .valentines-day:hover .heart { transform: translateY(-50px) rotate(-45deg); }
                 /* Papel com texto (efeito sem deformar) */
-                .quiz-envelope .paper-panel { position: absolute; top: -220px; left: 50%; transform: translateX(-50%); width: ${isMobile() ? '300px' : '520px'}; max-width: 88vw; background: linear-gradient(135deg, #fff5f7, #ffe6ec); border-radius: 16px; box-shadow: 0 8px 25px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.85); opacity: 0; transition: height .45s ease, opacity .45s ease; z-index: 100; overflow: hidden; border: 1px solid rgba(0,0,0,0.06); height: 0; }
-                .quiz-envelope .paper-content { padding: ${isMobile() ? '10px' : '20px'}; height: 100%; box-sizing: border-box; display: flex; justify-content: center; align-items: center; }
-                .quiz-envelope.open .paper-panel { height: ${isMobile() ? '220px' : '360px'}; opacity: 1; }
+                .quiz-envelope .paper-panel { position: absolute; top: -220px; left: 50%; transform: translateX(-50%); width: 520px; max-width: 88vw; background: linear-gradient(135deg, #fff5f7, #ffe6ec); border-radius: 16px; box-shadow: 0 8px 25px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.85); opacity: 0; transition: height .45s ease, opacity .45s ease; z-index: 100; overflow: hidden; border: 1px solid rgba(0,0,0,0.06); height: 0; }
+                .quiz-envelope .paper-content { padding: 20px; height: 100%; box-sizing: border-box; display: flex; justify-content: center; align-items: center; }
+                .quiz-envelope.open .paper-panel { height: 360px; opacity: 1; }
                 `;
                 document.head.appendChild(scopedStyles);
             }
@@ -1076,17 +1073,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 const answerButton = document.createElement('button');
                 answerButton.textContent = answer;
                 answerButton.style.cssText = `
-                    padding: ${isMobile() ? '10px 20px' : '15px 40px'};
-                    font-size: ${isMobile() ? '14px' : '18px'};
+                    padding: 15px 40px;
+                    font-size: 18px;
                     background: rgba(255, 255, 255, 0.1);
                     border: 2px solid rgba(255, 255, 255, 0.3);
                     border-radius: 25px;
                     color: white;
                     cursor: url("ui/pink2.cur"), pointer;
                     transition: all 0.3s ease;
-                    min-width: ${isMobile() ? '150px' : '200px'};
-                    max-width: ${isMobile() ? '85vw' : 'none'};
-                    word-wrap: break-word;
+                    min-width: 200px;
                 `;
 
                 answerButton.addEventListener('mouseenter', () => {
@@ -1138,11 +1133,11 @@ document.addEventListener('DOMContentLoaded', () => {
             proceedButton.textContent = 'PROSSEGUIR';
             proceedButton.style.cssText = `
                 position: fixed;
-                bottom: ${isMobile() ? '30px' : '50px'};
+                bottom: 50px;
                 left: 50%;
                 transform: translateX(-50%);
-                padding: ${isMobile() ? '10px 24px' : '15px 40px'};
-                font-size: ${isMobile() ? '14px' : '18px'};
+                padding: 15px 40px;
+                font-size: 18px;
                 background: linear-gradient(45deg, #ff69b4, #ff1493);
                 border: 2px solid #ff1493;
                 border-radius: 25px;
@@ -1230,9 +1225,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const successImg = document.createElement('img');
         successImg.src = 'ui/euteamo.png';
         successImg.style.cssText = `
-                width: ${isMobile() ? '85vw' : '600px'};
-                height: ${isMobile() ? 'auto' : '500px'};
-                max-width: 600px;
+                width: 600px;
+                height: 500px;
                 animation: popIn 0.5s ease-out, float 4s ease-in-out infinite;
                 pointer-events: none;
                 filter: 
@@ -1397,10 +1391,9 @@ document.addEventListener('DOMContentLoaded', () => {
             cancelButton.textContent = 'CANCELAR';
             cancelButton.style.cssText = `
                 position: absolute;
-                bottom: ${isMobile() ? '20px' : '60px'};
-                left: 50%;
-                transform: translateX(-50%);
-                padding: ${isMobile() ? '8px 24px' : '3px 21px'};
+                top: 655px;
+                right: 580px;
+                padding: 3px 21px;
                 background-color: green;
                 border: none;
                 border-radius: 4px;
@@ -1462,11 +1455,11 @@ document.addEventListener('DOMContentLoaded', () => {
             topText.textContent = "AMAR É COMPREENDER QUE A VULNERABILIDADE É A BASE PARA UMA CONEXÃO PROFUNDA";
             topText.style.cssText = `
                 color: white;
-                font-size: ${isMobile() ? '14px' : '24px'};
+                font-size: 24px;
                 font-weight: 300;
                 text-align: center;
-                padding: ${isMobile() ? '12px 10px' : '24px 20px'};
-                max-width: ${isMobile() ? '95vw' : '800px'};
+                padding: 24px 20px;
+                max-width: 800px;
                 line-height: 1.5;
                 letter-spacing: 1px;
                 text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
@@ -1523,17 +1516,19 @@ document.addEventListener('DOMContentLoaded', () => {
             const memoryGame = document.createElement('div');
             memoryGame.style.cssText = `
                 display: grid;
-                grid-template-columns: repeat(${isMobile() ? '3' : '6'}, 1fr);
-                gap: ${isMobile() ? '8px' : '20px'};
-                max-width: ${isMobile() ? '95vw' : '900px'};
+                grid-template-columns: repeat(6, 1fr);
+                gap: 20px;
+                max-width: 900px;
                 margin: 20px auto;
-                padding: ${isMobile() ? '8px' : '20px'};
+                padding: 20px;
                 position: absolute;
                 top: 52%;
                 left: 50%;
                 transform: translate(-50%, -50%);
                 justify-content: center;
             `;
+
+
             // Função para criar PNG "duvida" após o jogo da memória ser completado
             function createBouncingPngAfterMemory() {
                 // Verificar se o PNG já existe
@@ -1554,10 +1549,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 bouncingPng.src = 'ui/duvida.png';
                 bouncingPng.style.cssText = `
                     position: fixed;
-                    width: ${isMobile() ? '60px' : '100px'};
-                    height: ${isMobile() ? '60px' : '100px'};
+                    width: 100px;
+                    height: 100px;
                     left: 50%;
-                    top: ${isMobile() ? '85%' : '80%'};
+                    top: 80%;
                     transform: translateX(-50%);
                     cursor: pointer;
                     z-index: 1001;
@@ -1657,10 +1652,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 const card = document.createElement('div');
                 card.className = 'memory-card';
                 card.style.cssText = `
-                    width: ${isMobile() ? '80px' : '200px'};
-                    height: ${isMobile() ? '110px' : '300px'};
+                    width: 200px;
+                    height: 300px;
                     background: linear-gradient(45deg, #ff69b4, #ff1493);
-                    border-radius: ${isMobile() ? '6px' : '10px'};
+                    border-radius: 10px;
                     display: flex;
                     justify-content: center;
                     align-items: center;
@@ -1690,7 +1685,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 heart.textContent = '❤️';
                 heart.style.cssText = `
                     position: absolute;
-                    font-size: ${isMobile() ? '24px' : '50px'};
+                    font-size: 50px;
                     color: rgba(255, 255, 255, 255);
                     user-select: none;
                 `;
@@ -1779,7 +1774,7 @@ document.addEventListener('DOMContentLoaded', () => {
             karenImg.id = 'karenCharacter';
             karenImg.style.cssText = `
                 position: fixed;
-                width: ${isMobile() ? '120px' : '400px'};
+                width: 400px;
                 height: auto;
                 object-fit: contain;
                 pointer-events: auto;
@@ -1788,7 +1783,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 filter: drop-shadow(0 10px 18px rgba(0,0,0,.35));
                 animation: karenFloat 3s ease-in-out infinite, karenGlow 2s ease-in-out infinite alternate;
                 transition: transform 0.3s ease, filter 0.3s ease;
-                display: ${isMobile() ? 'none' : 'block'};
             `;
 
             const positionKaren = () => {
@@ -1997,8 +1991,8 @@ document.addEventListener('DOMContentLoaded', () => {
             countdownBar.style.cssText = `
                 position: fixed;
                 display: grid;
-                grid-template-columns: repeat(${isMobile() ? '3' : '6'}, 1fr);
-                gap: ${isMobile() ? '8px' : '30px'};
+                grid-template-columns: repeat(6, 1fr);
+                gap: 30px;
                 padding: 6px;
                 z-index: 1000;
             `;
@@ -2006,21 +2000,12 @@ document.addEventListener('DOMContentLoaded', () => {
             // Função para posicionar a barra alinhada e logo abaixo do grid de cartas
             const positionCountdownBar = () => {
                 const rect = memoryGame.getBoundingClientRect();
-                const scale = Math.min(1, Math.max(isMobile() ? 0.5 : 0.7, rect.width / 900));
-                if (isMobile()) {
-                    // No mobile, centraliza abaixo das cartas
-                    countdownBar.style.left = '50%';
-                    countdownBar.style.width = '95vw';
-                    countdownBar.style.top = Math.min(window.innerHeight - 100, rect.bottom + 4) + 'px';
-                    countdownBar.style.transform = `translateX(-50%) scale(${scale})`;
-                    countdownBar.style.transformOrigin = 'center top';
-                } else {
-                    countdownBar.style.left = rect.left + 'px';
-                    countdownBar.style.width = rect.width + 'px';
-                    countdownBar.style.top = Math.min(window.innerHeight - 80, rect.bottom + 6) + 'px';
-                    countdownBar.style.transform = `scale(${scale})`;
-                    countdownBar.style.transformOrigin = 'left top';
-                }
+                const scale = Math.min(1, Math.max(0.7, rect.width / 900));
+                countdownBar.style.left = rect.left + 'px';
+                countdownBar.style.width = rect.width + 'px';
+                countdownBar.style.top = Math.min(window.innerHeight - 80, rect.bottom + 6) + 'px';
+                countdownBar.style.transform = `scale(${scale})`;
+                countdownBar.style.transformOrigin = 'left top';
             };
 
             // Cria um bloco do contador (valor + label)
@@ -2029,8 +2014,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 box.style.cssText = `
                     background: linear-gradient(45deg, #ff69b4, #ff1493);
                     border: 2px solid #ff1493;
-                    border-radius: ${isMobile() ? '6px' : '10px'};
-                    padding: ${isMobile() ? '6px 4px' : '10px 8px'};
+                    border-radius: 10px;
+                    padding: 10px 8px;
                     display: flex;
                     flex-direction: column;
                     align-items: center;
@@ -2045,7 +2030,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const valueEl = document.createElement('div');
                 valueEl.style.cssText = `
                     font-weight: 800;
-                    font-size: ${isMobile() ? '16px' : '24px'};
+                    font-size: 24px;
                     letter-spacing: 1px;
                     transform: skew(6deg);
                 `;
@@ -2054,7 +2039,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const labelEl = document.createElement('div');
                 labelEl.style.cssText = `
                     margin-top: 2px;
-                    font-size: ${isMobile() ? '8px' : '11px'};
+                    font-size: 11px;
                     opacity: .95;
                     transform: skew(6deg);
                 `;
@@ -2193,28 +2178,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Função para posicionar a barra alinhada ao grid de cartas
                 const positionButtonsBar = () => {
                     const rect = memoryGame.getBoundingClientRect();
-                    const scale = Math.min(1, Math.max(isMobile() ? 0.6 : 0.75, rect.width / 900));
+                    const scale = Math.min(1, Math.max(0.75, rect.width / 900));
                     const titleBottom = topText?.getBoundingClientRect()?.bottom || 0;
                     const barHeight = buttonsBar.getBoundingClientRect().height || 64;
                     // Limites
-                    const minTop = Math.max(16, titleBottom + 8); // abaixo do texto
-                    const maxTop = rect.top - barHeight - 8;        // acima dos cards (com margem)
+                    const minTop = Math.max(16, titleBottom + 16); // abaixo do texto
+                    const maxTop = rect.top - barHeight - 16;        // acima dos cards (com margem)
                     // Posiciona, priorizando NUNCA cobrir os cards
-                    const desired = rect.top - barHeight - (isMobile() ? 8 : 24);
+                    const desired = rect.top - barHeight - 24;
                     const finalTop = Math.min(maxTop, Math.max(minTop, desired));
-                    if (isMobile()) {
-                        buttonsBar.style.left = '50%';
-                        buttonsBar.style.width = 'auto';
-                        buttonsBar.style.top = finalTop + 'px';
-                        buttonsBar.style.transform = `translateX(-50%) scale(${scale})`;
-                        buttonsBar.style.transformOrigin = 'center top';
-                    } else {
-                        buttonsBar.style.left = rect.left + 'px';
-                        buttonsBar.style.width = rect.width + 'px';
-                        buttonsBar.style.top = finalTop + 'px';
-                        buttonsBar.style.transform = `scale(${scale})`;
-                        buttonsBar.style.transformOrigin = 'left top';
-                    }
+                    buttonsBar.style.left = rect.left + 'px';
+                    buttonsBar.style.width = rect.width + 'px';
+                    buttonsBar.style.top = finalTop + 'px';
+                    buttonsBar.style.transform = `scale(${scale})`;
+                    buttonsBar.style.transformOrigin = 'left top';
                 };
 
                 // Criar botão TAMBÉM TE AMO
@@ -2485,13 +2462,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 jornalButton.id = 'jornalButton';
                 jornalButton.textContent = 'JORNAL';
                 jornalButton.style.cssText = `
-                    width: ${isMobile() ? '120px' : '184px'};
-                    height: ${isMobile() ? '36px' : '48px'};
+                    width: 184px;
+                    height: 48px;
                     display: flex;
                     align-items: center;
                     justify-content: center;
                     gap: 1rem;
-                    font-size: ${isMobile() ? '0.85em' : '1.125em'};
+                    font-size: 1.125em;
                     font-weight: 800;
                     letter-spacing: 2px;
                     color: #fff;

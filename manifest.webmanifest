@@ -1,0 +1,28 @@
+{
+  "name": "Para Noemi",
+  "short_name": "Noemi",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "description": "Aplicativo com a experiencia romantica Para Noemi.",
+  "icons": [
+    {
+      "src": "ui/cc.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "ui/cc.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "ui/cc.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

@@ -7,6 +7,13 @@
     <title>Para Noemi</title>
     <meta name="color-scheme" content="dark">
     <meta name="theme-color" content="#000000">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Para Noemi">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="icon" type="image/png" sizes="192x192" href="ui/cc.png">
+    <link rel="apple-touch-icon" href="ui/cc.png">
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
     <!-- Stylesheet -->
@@ -94,5 +101,15 @@
     </div>
 
 </body>
+
+<script>
+    if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+            navigator.serviceWorker.register("./sw.js").catch((error) => {
+                console.error("Falha ao registrar service worker:", error);
+            });
+        });
+    }
+</script>
 
 </html>

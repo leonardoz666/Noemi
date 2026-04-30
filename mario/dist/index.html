@@ -113,18 +113,28 @@
 
         // Click handler to show kiss GIF and caption
         between.addEventListener('click', function() {
-          // center kiss at same middle position as heart
-          kiss.style.left = between.style.left;
+          var peachRect = peach.getBoundingClientRect();
+          var marioRect = mario.getBoundingClientRect();
+          var midX = (marioRect.right + peachRect.left - meetGap) / 2;
+
+          // Tamanho responsivo do beijo (menor no celular virado)
+          var isMobileLandscape = window.matchMedia && window.matchMedia('(max-width: 1024px) and (orientation: landscape)').matches;
+          var base = Math.min(window.innerWidth, window.innerHeight);
+          var kissSize = Math.round(Math.min(isMobileLandscape ? 220 : 320, Math.max(160, base * (isMobileLandscape ? 0.48 : 0.56))));
+          kiss.style.width = kissSize + 'px';
+          kiss.style.height = kissSize + 'px';
+
+          // Posicionar o beijo exatamente acima dos bonecos
+          var bottomFromChars = window.innerHeight - Math.max(marioRect.bottom, peachRect.bottom);
+          var kissBottom = Math.round(Math.max(18, bottomFromChars + 40));
+          kiss.style.left = midX + 'px';
+          kiss.style.bottom = kissBottom + 'px';
           kiss.style.display = 'block';
           between.style.display = 'none';
 
-          // position caption above the kiss gif (synced with CSS base values)
-          var kissStyles = window.getComputedStyle(kiss);
-          var kissBottom = parseInt(kissStyles.bottom, 10) || 0;
-          var kissHeight = kiss.clientHeight || 0;
-          // match the CSS extra offset of 320px
-          var captionBottom = kissBottom + kissHeight + 320;
-          caption.style.left = kiss.style.left;
+          // Frase logo acima do beijo (sem sair da tela)
+          var captionBottom = kissBottom + kissSize + (isMobileLandscape ? 16 : 22);
+          caption.style.left = midX + 'px';
           caption.style.bottom = captionBottom + 'px';
           caption.style.display = 'block';
 

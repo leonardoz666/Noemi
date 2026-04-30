@@ -66,12 +66,11 @@ body {
 /* Kiss GIF overlay shown after clicking the heart */
 .kiss {
   position: fixed;
-  bottom: 150px;
+  bottom: 0;
   left: 50%;
-  width: min(86vw, 340px);
-  height: min(86vw, 340px);
-  margin-left: 0;
-  transform: translateX(calc(-50% + 30px));
+  width: 240px;
+  height: 240px;
+  transform: translateX(-50%);
   background-image: url("./beijo.gif");
   background-repeat: no-repeat;
   background-size: contain;
@@ -86,8 +85,8 @@ body {
 .caption {
   position: fixed;
   left: 50%;
-  bottom: calc(150px + min(86vw, 340px) + 220px);
-  transform: translateX(calc(-50% + 30px));
+  bottom: 0;
+  transform: translateX(-50%);
   max-width: min(92vw, 760px);
   padding: 0;
   background: transparent;
@@ -111,13 +110,11 @@ body {
 
 @media (max-width: 1024px) and (orientation: landscape) {
   .kiss {
-    bottom: 84px;
-    width: min(70vw, 240px);
-    height: min(70vw, 240px);
+    width: 200px;
+    height: 200px;
   }
 
   .caption {
-    bottom: calc(84px + min(70vw, 240px) + 120px);
     font-size: clamp(16px, 3.2vw, 28px);
     letter-spacing: 1px;
   }

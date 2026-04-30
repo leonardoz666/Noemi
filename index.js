@@ -1,4 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Trava rolagem da página em qualquer fase da experiência.
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
+    window.scrollTo(0, 0);
+    window.addEventListener('scroll', () => window.scrollTo(0, 0), { passive: true });
+
+    // Permite arrastar apenas barras de range (player), bloqueando scroll por toque.
+    document.addEventListener('touchmove', (event) => {
+        if (event.target && event.target.matches('input[type="range"]')) return;
+        event.preventDefault();
+    }, { passive: false });
+
     // *************** CONFIGURAÇÕES INICIAIS ***************
     // Elementos da UI
     const elements = {
@@ -86,8 +98,8 @@ document.addEventListener('DOMContentLoaded', () => {
             position: fixed;
             bottom: 12px;
             right: 12px;
-            width: min(200px, calc(100vw - 24px));
-            max-width: calc(100vw - 24px);
+            width: min(180px, calc(100dvw - 24px));
+            max-width: calc(100dvw - 24px);
             background: rgba(40, 40, 40, 0);
             border-radius: 12px;
             padding: 10px;
@@ -96,6 +108,8 @@ document.addEventListener('DOMContentLoaded', () => {
             color: white;
             font-family: 'Arial', sans-serif;
             pointer-events: auto;
+            box-sizing: border-box;
+            overflow: hidden;
         `;
 
         let audio;
@@ -110,14 +124,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         audioPlayer.innerHTML = `
-            <div style="display: flex; align-items: center; margin-bottom: 8px;">
+            <div style="display: flex; align-items: center; margin-bottom: 8px; width: 100%; min-width: 0;">
                 <img src="music/capa.jpg" style="width: 40px; height: 40px; border-radius: 4px; margin-right: 8px; object-fit: cover;">
-                <div>
-                    <div style="font-size: 12px; font-weight: bold;">Como Nossos Pais</div>
-                    <div style="font-size: 10px; color: #b3b3b3;">Elis Regina</div>
+                <div style="min-width: 0; flex: 1;">
+                    <div style="font-size: 12px; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Como Nossos Pais</div>
+                    <div style="font-size: 10px; color: #b3b3b3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Elis Regina</div>
                 </div>
             </div>
-            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px; width: 100%; min-width: 0;">
                 <button class="play-pause-btn" style="
                     background: none;
                     border: none;
@@ -128,6 +142,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 ">⏸</button>
                 <input class="seek-bar" type="range" style="
                     flex-grow: 1;
+                    min-width: 0;
+                    width: 100%;
+                    margin: 0;
                     height: 3px;
                     -webkit-appearance: none;
                     background: #4f4f4f;
@@ -135,10 +152,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     cursor: pointer;
                 " value="0">
             </div>
-            <div style="display: flex; align-items: center; gap: 8px;">
+            <div style="display: flex; align-items: center; gap: 8px; width: 100%; min-width: 0;">
                 <span style="font-size: 12px; color: #b3b3b3; min-width: 20px;">🔊</span>
                 <input class="volume-bar" type="range" style="
                     flex-grow: 1;
+                    min-width: 0;
+                    width: 100%;
+                    margin: 0;
                     height: 3px;
                     -webkit-appearance: none;
                     background: #4f4f4f;

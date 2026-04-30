@@ -1885,14 +1885,63 @@ document.addEventListener('DOMContentLoaded', () => {
             const positionKaren = () => {
                 const rect = memoryGame.getBoundingClientRect();
                 const midY = rect.top + rect.height / 2;
+                const mobileLandscape = window.matchMedia('(max-width: 1024px) and (orientation: landscape)').matches;
                 // Fixa no canto direito com margem
                 karenImg.style.left = 'auto';
-                karenImg.style.right = '-60px';
+                karenImg.style.right = mobileLandscape ? '-18px' : '-60px';
                 const box = karenImg.getBoundingClientRect();
                 const imgH = box.height || (karenImg.naturalHeight || 400);
                 const verticalMargin = 24;
                 const top = Math.max(verticalMargin, Math.min(window.innerHeight - imgH - verticalMargin, midY - imgH / 2));
                 karenImg.style.top = top + 'px';
+            };
+
+            const applyMainLayoutForMobileLandscape = () => {
+                const mobileLandscape = window.matchMedia('(max-width: 1024px) and (orientation: landscape)').matches;
+
+                if (mobileLandscape) {
+                    topText.style.fontSize = 'clamp(14px, 2.1vw, 18px)';
+                    topText.style.lineHeight = '1.3';
+                    topText.style.padding = '8px 14px';
+                    topText.style.maxWidth = '92vw';
+                    topText.style.marginTop = '0px';
+
+                    memoryGame.style.gridTemplateColumns = 'repeat(4, 1fr)';
+                    memoryGame.style.gap = '10px';
+                    memoryGame.style.maxWidth = 'min(88vw, 760px)';
+                    memoryGame.style.padding = '10px';
+                    memoryGame.style.top = '58%';
+
+                    memoryGame.querySelectorAll('.memory-card').forEach((card) => {
+                        card.style.width = '102px';
+                        card.style.height = '144px';
+                        const heartEl = card.querySelector('div > div');
+                        if (heartEl) heartEl.style.fontSize = '36px';
+                    });
+
+                    karenImg.style.width = '210px';
+                } else {
+                    topText.style.fontSize = '24px';
+                    topText.style.lineHeight = '1.5';
+                    topText.style.padding = '24px 20px';
+                    topText.style.maxWidth = '800px';
+                    topText.style.marginTop = '8px';
+
+                    memoryGame.style.gridTemplateColumns = 'repeat(6, 1fr)';
+                    memoryGame.style.gap = '20px';
+                    memoryGame.style.maxWidth = '900px';
+                    memoryGame.style.padding = '20px';
+                    memoryGame.style.top = '52%';
+
+                    memoryGame.querySelectorAll('.memory-card').forEach((card) => {
+                        card.style.width = '200px';
+                        card.style.height = '300px';
+                        const heartEl = card.querySelector('div > div');
+                        if (heartEl) heartEl.style.fontSize = '50px';
+                    });
+
+                    karenImg.style.width = '400px';
+                }
             };
 
             // Adicionar animações CSS para a Karen
@@ -1939,11 +1988,18 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!karenImg.complete) {
                 karenImg.addEventListener('load', () => { positionKaren(); try { window.dispatchEvent(new Event('resize')); } catch (_) { } }, { once: true });
             }
+            applyMainLayoutForMobileLandscape();
             positionKaren();
             try { window.dispatchEvent(new Event('resize')); } catch (_) { }
-            window.addEventListener('resize', positionKaren);
+            window.addEventListener('resize', () => {
+                applyMainLayoutForMobileLandscape();
+                positionKaren();
+            });
             ;['fullscreenchange', 'webkitfullscreenchange', 'mozfullscreenchange', 'MSFullscreenChange']
-                .forEach(evt => document.addEventListener(evt, positionKaren));
+                .forEach(evt => document.addEventListener(evt, () => {
+                    applyMainLayoutForMobileLandscape();
+                    positionKaren();
+                }));
 
             // Abre o mini game em um overlay ao clicar na Karen
             karenImg.addEventListener('click', () => {

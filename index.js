@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Pré-criar camadas para evitar flash (flores + blur)
     (function precreateLayers() {
-        if (!isMobileViewport && !document.getElementById('flowersBackground')) {
+        if (!document.getElementById('flowersBackground')) {
             const flowersFrame = document.createElement('iframe');
             flowersFrame.id = 'flowersBackground';
             flowersFrame.src = 'flowers/dist/index.html';
@@ -382,7 +382,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const scale = isMobileViewport ? baseScale * 0.82 : baseScale;
                     const p = heartPoint(t, scale);
                     l.targetX = window.innerWidth / 2 + p.x;
-                    l.targetY = window.innerHeight / 2 + p.y - (isMobileViewport ? 84 : 80);
+                    l.targetY = window.innerHeight / 2 + p.y - (isMobileViewport ? 64 : 80);
                     // Reaplicar o alvo intermediário conforme progresso atual
                     const fraction = (window.__heartProgressFraction ?? 0);
                     l.tx = l.startX + (l.targetX - l.startX) * fraction;
@@ -505,7 +505,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const scale = isMobileViewport ? baseScale * 0.82 : baseScale;
                 const p = heartPoint(t, scale);
                 lily.targetX = window.innerWidth / 2 + p.x;
-                lily.targetY = window.innerHeight / 2 + p.y - (isMobileViewport ? 84 : 80);
+                lily.targetY = window.innerHeight / 2 + p.y - (isMobileViewport ? 64 : 80);
 
                 // Inicialmente, a posição atual é igual à posição inicial
                 lily.tx = x;

@@ -1906,17 +1906,17 @@ document.addEventListener('DOMContentLoaded', () => {
                     topText.style.maxWidth = '96vw';
                     topText.style.marginTop = '2px';
 
-                    memoryGame.style.gridTemplateColumns = 'repeat(4, 1fr)';
+                    memoryGame.style.gridTemplateColumns = 'repeat(6, 1fr)';
                     memoryGame.style.gap = '8px';
-                    memoryGame.style.maxWidth = 'min(72vw, 620px)';
+                    memoryGame.style.maxWidth = 'min(82vw, 780px)';
                     memoryGame.style.padding = '8px';
                     memoryGame.style.top = '62%';
 
                     memoryGame.querySelectorAll('.memory-card').forEach((card) => {
-                        card.style.width = '92px';
-                        card.style.height = '128px';
+                        card.style.width = '74px';
+                        card.style.height = '104px';
                         const heartEl = card.querySelector('div > div');
-                        if (heartEl) heartEl.style.fontSize = '32px';
+                        if (heartEl) heartEl.style.fontSize = '28px';
                     });
 
                     karenImg.style.width = '150px';
@@ -2359,6 +2359,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Função para posicionar a barra alinhada ao grid de cartas
                 const positionButtonsBar = () => {
                     const rect = memoryGame.getBoundingClientRect();
+                    const mobileLandscape = window.matchMedia('(max-width: 1024px) and (orientation: landscape)').matches;
                     const scale = Math.min(1, Math.max(0.75, rect.width / 900));
                     const titleBottom = topText?.getBoundingClientRect()?.bottom || 0;
                     const barHeight = buttonsBar.getBoundingClientRect().height || 64;
@@ -2368,11 +2369,23 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Posiciona, priorizando NUNCA cobrir os cards
                     const desired = rect.top - barHeight - 24;
                     const finalTop = Math.min(maxTop, Math.max(minTop, desired));
-                    buttonsBar.style.left = rect.left + 'px';
-                    buttonsBar.style.width = rect.width + 'px';
-                    buttonsBar.style.top = finalTop + 'px';
-                    buttonsBar.style.transform = `scale(${scale})`;
-                    buttonsBar.style.transformOrigin = 'left top';
+                    if (mobileLandscape) {
+                        buttonsBar.style.left = 'auto';
+                        buttonsBar.style.width = 'auto';
+                        buttonsBar.style.top = '14px';
+                        buttonsBar.style.right = '72px';
+                        buttonsBar.style.transform = 'none';
+                        buttonsBar.style.transformOrigin = 'center top';
+                        buttonsBar.style.justifyContent = 'flex-end';
+                    } else {
+                        buttonsBar.style.right = 'auto';
+                        buttonsBar.style.left = rect.left + 'px';
+                        buttonsBar.style.width = rect.width + 'px';
+                        buttonsBar.style.top = finalTop + 'px';
+                        buttonsBar.style.transform = `scale(${scale})`;
+                        buttonsBar.style.transformOrigin = 'left top';
+                        buttonsBar.style.justifyContent = 'center';
+                    }
                 };
 
                 // Criar botão TAMBÉM TE AMO

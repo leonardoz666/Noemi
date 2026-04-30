@@ -57,10 +57,9 @@ document.addEventListener('DOMContentLoaded', () => {
             flowersFrame.src = 'flowers/dist/index.html';
             flowersFrame.style.cssText = `
                 position: fixed;
-                top: 0;
-                left: 0;
-                width: 100vw;
-                height: 100vh;
+                inset: 0;
+                width: 100%;
+                height: 100%;
                 border: none;
                 z-index: 0;
                 pointer-events: none;

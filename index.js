@@ -1910,7 +1910,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     memoryGame.style.gap = '8px';
                     memoryGame.style.maxWidth = 'min(82vw, 780px)';
                     memoryGame.style.padding = '8px';
-                    memoryGame.style.top = '62%';
+                    memoryGame.style.top = '56%';
 
                     memoryGame.querySelectorAll('.memory-card').forEach((card) => {
                         card.style.width = '74px';
@@ -1919,7 +1919,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         if (heartEl) heartEl.style.fontSize = '28px';
                     });
 
-                    karenImg.style.width = '150px';
+                    karenImg.style.width = '195px';
                 } else {
                     topText.style.fontSize = '24px';
                     topText.style.lineHeight = '1.5';
@@ -2156,6 +2156,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const positionCountdownBar = () => {
                 const rect = memoryGame.getBoundingClientRect();
                 const isMobile = window.matchMedia('(max-width: 768px)').matches;
+                const isMobileLandscape = window.matchMedia('(max-width: 1024px) and (orientation: landscape)').matches;
                 const scale = isMobile ? Math.min(1, (window.innerWidth - 20) / 450) : Math.min(1, Math.max(0.7, rect.width / 900));
 
                 countdownBar.style.left = '50%';
@@ -2164,8 +2165,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 if (isMobile) {
                     countdownBar.style.gap = '8px';
-                    countdownBar.style.top = 'auto';
-                    countdownBar.style.bottom = '15px';
+                    if (isMobileLandscape) {
+                        countdownBar.style.top = Math.min(window.innerHeight - 58, rect.bottom + 8) + 'px';
+                        countdownBar.style.bottom = 'auto';
+                    } else {
+                        countdownBar.style.top = 'auto';
+                        countdownBar.style.bottom = '15px';
+                    }
                 } else {
                     countdownBar.style.gap = '20px';
                     countdownBar.style.top = Math.min(window.innerHeight - 80, rect.bottom + 10) + 'px';
@@ -2370,13 +2376,20 @@ document.addEventListener('DOMContentLoaded', () => {
                     const desired = rect.top - barHeight - 24;
                     const finalTop = Math.min(maxTop, Math.max(minTop, desired));
                     if (mobileLandscape) {
+                        const karenRect = karenImg.getBoundingClientRect();
                         buttonsBar.style.left = 'auto';
                         buttonsBar.style.width = 'auto';
-                        buttonsBar.style.top = '14px';
-                        buttonsBar.style.right = '72px';
+                        buttonsBar.style.top = Math.max(8, karenRect.top - 44) + 'px';
+                        buttonsBar.style.right = '8px';
                         buttonsBar.style.transform = 'none';
                         buttonsBar.style.transformOrigin = 'center top';
                         buttonsBar.style.justifyContent = 'flex-end';
+                        jornalButton.style.width = '132px';
+                        jornalButton.style.height = '38px';
+                        jornalButton.style.fontSize = '0.95em';
+                        jornalButton.style.letterSpacing = '1px';
+                        jornalButton.style.borderRadius = '.6rem';
+                        jornalButton.style.boxShadow = '0 5px 0 #ff1493';
                     } else {
                         buttonsBar.style.right = 'auto';
                         buttonsBar.style.left = rect.left + 'px';
@@ -2385,6 +2398,12 @@ document.addEventListener('DOMContentLoaded', () => {
                         buttonsBar.style.transform = `scale(${scale})`;
                         buttonsBar.style.transformOrigin = 'left top';
                         buttonsBar.style.justifyContent = 'center';
+                        jornalButton.style.width = '184px';
+                        jornalButton.style.height = '48px';
+                        jornalButton.style.fontSize = '1.125em';
+                        jornalButton.style.letterSpacing = '2px';
+                        jornalButton.style.borderRadius = '.75rem';
+                        jornalButton.style.boxShadow = '0 8px 0 #ff1493';
                     }
                 };
 

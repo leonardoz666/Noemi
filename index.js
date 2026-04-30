@@ -1874,12 +1874,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 width: 400px;
                 height: auto;
                 object-fit: contain;
-                pointer-events: auto;
-                cursor: url('ui/pink2.cur'), pointer;
+                pointer-events: none;
                 z-index: 1200;
                 filter: drop-shadow(0 10px 18px rgba(0,0,0,.35));
                 animation: karenFloat 3s ease-in-out infinite, karenGlow 2s ease-in-out infinite alternate;
                 transition: transform 0.3s ease, filter 0.3s ease;
+            `;
+
+            // Hitbox menor para evitar abrir sem querer
+            const karenHitbox = document.createElement('div');
+            karenHitbox.id = 'karenHitbox';
+            karenHitbox.style.cssText = `
+                position: fixed;
+                background: transparent;
+                pointer-events: auto;
+                cursor: url('ui/pink2.cur'), pointer;
+                z-index: 1201;
+                border-radius: 16px;
             `;
 
             const positionKaren = () => {
@@ -1894,6 +1905,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 const verticalMargin = 24;
                 const top = Math.max(verticalMargin, Math.min(window.innerHeight - imgH - verticalMargin, midY - imgH / 2));
                 karenImg.style.top = top + 'px';
+
+                // Posicionar hitbox menor em cima da boneca (mais “preciso” para toque)
+                const kb = karenImg.getBoundingClientRect();
+                const w = Math.max(60, kb.width * 0.52);
+                const h = Math.max(90, kb.height * 0.58);
+                karenHitbox.style.width = w + 'px';
+                karenHitbox.style.height = h + 'px';
+                karenHitbox.style.left = (kb.left + (kb.width - w) / 2) + 'px';
+                karenHitbox.style.top = (kb.top + kb.height * 0.18) + 'px';
             };
 
             const applyMainLayoutForMobileLandscape = () => {
@@ -1984,6 +2004,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.head.appendChild(karenStyle);
 
             document.body.appendChild(karenImg);
+            document.body.appendChild(karenHitbox);
             // Ajustar depois de carregar para pegar dimensões naturais
             if (!karenImg.complete) {
                 karenImg.addEventListener('load', () => { positionKaren(); try { window.dispatchEvent(new Event('resize')); } catch (_) { } }, { once: true });
@@ -2002,7 +2023,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }));
 
             // Abre o mini game em um overlay ao clicar na Karen
-            karenImg.addEventListener('click', () => {
+            karenHitbox.addEventListener('click', () => {
                 // Efeito especial de clique na Karen
                 karenImg.style.animation = 'karenFloat 0.5s ease-in-out, karenGlow 0.3s ease-in-out';
 

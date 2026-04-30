@@ -68,9 +68,10 @@ body {
   position: fixed;
   bottom: 150px;
   left: 50%;
-  width: 400px;
-  height: 400px;
-  margin-left: -155px; /* slightly to the right of exact center */
+  width: min(86vw, 340px);
+  height: min(86vw, 340px);
+  margin-left: 0;
+  transform: translateX(calc(-50% + 30px));
   background-image: url("./beijo.gif");
   background-repeat: no-repeat;
   background-size: contain;
@@ -85,21 +86,20 @@ body {
 .caption {
   position: fixed;
   left: 50%;
-  bottom: calc(150px + 400px + 320px);
+  bottom: calc(150px + min(86vw, 340px) + 220px);
   transform: translateX(calc(-50% + 30px));
-  max-width: min(90vw, 720px);
+  max-width: min(92vw, 760px);
   padding: 0;
   background: transparent;
   color: #000;
   font-family: 'Cormorant Garamond', Georgia, "Times New Roman", Times, serif;
-  font-size: 56px;
+  font-size: clamp(18px, 4.2vw, 44px);
   line-height: 1.15;
   text-align: center;
   text-shadow: none;
   z-index: 14;
   display: none;
-  max-width: none;
-  white-space: nowrap;
+  white-space: normal;
   overflow: visible;
   word-break: normal;
   text-transform: uppercase;
@@ -107,6 +107,26 @@ body {
   font-weight: 300;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+@media (max-width: 1024px) and (orientation: landscape) {
+  .kiss {
+    bottom: 84px;
+    width: min(70vw, 240px);
+    height: min(70vw, 240px);
+  }
+
+  .caption {
+    bottom: calc(84px + min(70vw, 240px) + 120px);
+    font-size: clamp(16px, 3.2vw, 28px);
+    letter-spacing: 1px;
+  }
+
+  .duvida {
+    width: 76px;
+    height: 76px;
+    top: 78%;
+  }
 }
 
 @keyframes kissPop {

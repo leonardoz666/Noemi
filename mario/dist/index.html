@@ -90,7 +90,8 @@
         }
 
         function startHeartRain() {
-          var totalHearts = 150; // increased from 80
+          var isMobileLandscape = window.matchMedia && window.matchMedia('(max-width: 1024px) and (orientation: landscape)').matches;
+          var totalHearts = isMobileLandscape ? 70 : 150;
           for (var i = 0; i < totalHearts; i++) {
             (function(iCopy){
               var delay = Math.random() * 2500; // staggered start
@@ -100,7 +101,7 @@
                 heart.textContent = '❤';
                 var left = Math.random() * 100; // vw
                 var top = Math.random() * 100; // vh - spread across screen height
-                var size = 24 + Math.random() * 40; // px
+                var size = (isMobileLandscape ? 14 : 24) + Math.random() * (isMobileLandscape ? 22 : 40);
                 heart.style.left = left + 'vw';
                 heart.style.top = top + 'vh';
                 heart.style.fontSize = size + 'px';

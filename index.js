@@ -1553,7 +1553,7 @@ document.addEventListener('DOMContentLoaded', () => {
             topText.style.cssText = `
                 color: white;
                 font-size: 24px;
-                font-weight: 300;
+                font-weight: 800;
                 text-align: center;
                 padding: 24px 20px;
                 max-width: 800px;
@@ -1910,7 +1910,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     memoryGame.style.gap = '8px';
                     memoryGame.style.maxWidth = 'min(82vw, 780px)';
                     memoryGame.style.padding = '8px';
-                    memoryGame.style.top = '39%';
+                    memoryGame.style.top = '42%';
 
                     memoryGame.querySelectorAll('.memory-card').forEach((card) => {
                         card.style.width = '74px';
@@ -2377,11 +2377,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     const desired = rect.top - barHeight - 24;
                     const finalTop = Math.min(maxTop, Math.max(minTop, desired));
                     if (mobileLandscape) {
-                        const karenRect = karenImg.getBoundingClientRect();
-                        buttonsBar.style.left = 'auto';
+                        buttonsBar.style.right = 'auto';
                         buttonsBar.style.width = 'auto';
-                        buttonsBar.style.top = Math.max(8, karenRect.top - 44) + 'px';
-                        buttonsBar.style.right = '8px';
+                        // Coloca o JORNAL à esquerda do grid (sem cobrir as cartas)
+                        const approxBtnW = 120;
+                        const left = Math.max(8, rect.left - approxBtnW - 12);
+                        buttonsBar.style.left = left + 'px';
+                        buttonsBar.style.top = Math.max(8, rect.top + 8) + 'px';
                         buttonsBar.style.transform = 'none';
                         buttonsBar.style.transformOrigin = 'center top';
                         buttonsBar.style.justifyContent = 'flex-end';

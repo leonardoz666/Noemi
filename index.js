@@ -1910,7 +1910,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     memoryGame.style.gap = '8px';
                     memoryGame.style.maxWidth = 'min(82vw, 780px)';
                     memoryGame.style.padding = '8px';
-                    memoryGame.style.top = '53%';
+                    memoryGame.style.top = '39%';
 
                     memoryGame.querySelectorAll('.memory-card').forEach((card) => {
                         card.style.width = '74px';

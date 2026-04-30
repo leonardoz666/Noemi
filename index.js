@@ -786,7 +786,7 @@ document.addEventListener('DOMContentLoaded', () => {
             bottom: ${isMobileViewport ? 56 : 20}px;
             left: 50%;
             transform: translateX(-50%);
-            width: min(420px, calc(100dvw - 24px));
+            width: ${isMobileViewport ? 'min(340px, calc(100dvw - 56px))' : 'min(420px, calc(100dvw - 24px))'};
             height: ${isMobileViewport ? 22 : 28}px;
             background: rgba(255, 255, 255, 0.08);
             border-radius: 14px;
@@ -1900,26 +1900,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 const mobileLandscape = window.matchMedia('(max-width: 1024px) and (orientation: landscape)').matches;
 
                 if (mobileLandscape) {
-                    topText.style.fontSize = 'clamp(14px, 2.1vw, 18px)';
-                    topText.style.lineHeight = '1.3';
-                    topText.style.padding = '8px 14px';
-                    topText.style.maxWidth = '92vw';
-                    topText.style.marginTop = '0px';
+                    topText.style.fontSize = 'clamp(12px, 1.6vw, 16px)';
+                    topText.style.lineHeight = '1.25';
+                    topText.style.padding = '6px 12px';
+                    topText.style.maxWidth = '96vw';
+                    topText.style.marginTop = '2px';
 
                     memoryGame.style.gridTemplateColumns = 'repeat(4, 1fr)';
-                    memoryGame.style.gap = '10px';
-                    memoryGame.style.maxWidth = 'min(88vw, 760px)';
-                    memoryGame.style.padding = '10px';
-                    memoryGame.style.top = '58%';
+                    memoryGame.style.gap = '8px';
+                    memoryGame.style.maxWidth = 'min(72vw, 620px)';
+                    memoryGame.style.padding = '8px';
+                    memoryGame.style.top = '62%';
 
                     memoryGame.querySelectorAll('.memory-card').forEach((card) => {
-                        card.style.width = '102px';
-                        card.style.height = '144px';
+                        card.style.width = '92px';
+                        card.style.height = '128px';
                         const heartEl = card.querySelector('div > div');
-                        if (heartEl) heartEl.style.fontSize = '36px';
+                        if (heartEl) heartEl.style.fontSize = '32px';
                     });
 
-                    karenImg.style.width = '210px';
+                    karenImg.style.width = '150px';
                 } else {
                     topText.style.fontSize = '24px';
                     topText.style.lineHeight = '1.5';
@@ -2153,12 +2153,28 @@ document.addEventListener('DOMContentLoaded', () => {
             // Função para posicionar a barra alinhada e logo abaixo do grid de cartas
             const positionCountdownBar = () => {
                 const rect = memoryGame.getBoundingClientRect();
+                const mobileLandscape = window.matchMedia('(max-width: 1024px) and (orientation: landscape)').matches;
                 const scale = Math.min(1, Math.max(0.7, rect.width / 900));
-                countdownBar.style.left = rect.left + 'px';
-                countdownBar.style.width = rect.width + 'px';
-                countdownBar.style.top = Math.min(window.innerHeight - 80, rect.bottom + 6) + 'px';
-                countdownBar.style.transform = `scale(${scale})`;
-                countdownBar.style.transformOrigin = 'left top';
+
+                if (mobileLandscape) {
+                    countdownBar.style.gridTemplateColumns = 'repeat(3, 1fr)';
+                    countdownBar.style.gap = '8px';
+                    countdownBar.style.left = '50%';
+                    countdownBar.style.width = 'min(72vw, 620px)';
+                    countdownBar.style.top = 'auto';
+                    countdownBar.style.bottom = '8px';
+                    countdownBar.style.transform = 'translateX(-50%) scale(0.88)';
+                    countdownBar.style.transformOrigin = 'center bottom';
+                } else {
+                    countdownBar.style.gridTemplateColumns = 'repeat(6, 1fr)';
+                    countdownBar.style.gap = '30px';
+                    countdownBar.style.left = rect.left + 'px';
+                    countdownBar.style.width = rect.width + 'px';
+                    countdownBar.style.top = Math.min(window.innerHeight - 80, rect.bottom + 6) + 'px';
+                    countdownBar.style.bottom = 'auto';
+                    countdownBar.style.transform = `scale(${scale})`;
+                    countdownBar.style.transformOrigin = 'left top';
+                }
             };
 
             // Cria um bloco do contador (valor + label)

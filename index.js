@@ -2143,37 +2143,33 @@ document.addEventListener('DOMContentLoaded', () => {
             countdownBar.id = 'countdownBar';
             countdownBar.style.cssText = `
                 position: fixed;
-                display: grid;
-                grid-template-columns: repeat(6, 1fr);
-                gap: 30px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 12px;
                 padding: 6px;
                 z-index: 1000;
+                width: auto;
             `;
 
             // Função para posicionar a barra alinhada e logo abaixo do grid de cartas
             const positionCountdownBar = () => {
                 const rect = memoryGame.getBoundingClientRect();
-                const mobileLandscape = window.matchMedia('(max-width: 1024px) and (orientation: landscape)').matches;
-                const scale = Math.min(1, Math.max(0.7, rect.width / 900));
+                const isMobile = window.matchMedia('(max-width: 768px)').matches;
+                const scale = isMobile ? Math.min(1, (window.innerWidth - 20) / 450) : Math.min(1, Math.max(0.7, rect.width / 900));
 
-                if (mobileLandscape) {
-                    countdownBar.style.gridTemplateColumns = 'repeat(3, 1fr)';
+                countdownBar.style.left = '50%';
+                countdownBar.style.transform = `translateX(-50%) scale(${scale})`;
+                countdownBar.style.transformOrigin = 'center center';
+                
+                if (isMobile) {
                     countdownBar.style.gap = '8px';
-                    countdownBar.style.left = '50%';
-                    countdownBar.style.width = 'min(72vw, 620px)';
                     countdownBar.style.top = 'auto';
-                    countdownBar.style.bottom = '8px';
-                    countdownBar.style.transform = 'translateX(-50%) scale(0.88)';
-                    countdownBar.style.transformOrigin = 'center bottom';
+                    countdownBar.style.bottom = '15px';
                 } else {
-                    countdownBar.style.gridTemplateColumns = 'repeat(6, 1fr)';
-                    countdownBar.style.gap = '30px';
-                    countdownBar.style.left = rect.left + 'px';
-                    countdownBar.style.width = rect.width + 'px';
-                    countdownBar.style.top = Math.min(window.innerHeight - 80, rect.bottom + 6) + 'px';
+                    countdownBar.style.gap = '20px';
+                    countdownBar.style.top = Math.min(window.innerHeight - 80, rect.bottom + 10) + 'px';
                     countdownBar.style.bottom = 'auto';
-                    countdownBar.style.transform = `scale(${scale})`;
-                    countdownBar.style.transformOrigin = 'left top';
                 }
             };
 
@@ -2184,22 +2180,23 @@ document.addEventListener('DOMContentLoaded', () => {
                     background: linear-gradient(45deg, #ff69b4, #ff1493);
                     border: 2px solid #ff1493;
                     border-radius: 10px;
-                    padding: 10px 8px;
+                    padding: 8px 6px;
                     display: flex;
                     flex-direction: column;
                     align-items: center;
                     justify-content: center;
                     color: #fff;
                     text-align: center;
-                    box-shadow: 0 6px 0 #ff1493;
-                    filter: drop-shadow(0 6px 10px #ff0095);
+                    box-shadow: 0 4px 0 #ff1493;
+                    filter: drop-shadow(0 4px 8px #ff0095);
                     transform: skew(-6deg);
+                    min-width: 60px;
                 `;
 
                 const valueEl = document.createElement('div');
                 valueEl.style.cssText = `
                     font-weight: 800;
-                    font-size: 24px;
+                    font-size: 22px;
                     letter-spacing: 1px;
                     transform: skew(6deg);
                 `;
@@ -2207,8 +2204,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const labelEl = document.createElement('div');
                 labelEl.style.cssText = `
-                    margin-top: 2px;
-                    font-size: 11px;
+                    margin-top: 1px;
+                    font-size: 10px;
                     opacity: .95;
                     transform: skew(6deg);
                 `;
@@ -2269,7 +2266,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 const now = new Date();
                 const d = diffSince(startDate, now);
                 const values = [d.years, d.months, d.days, d.hours, d.minutes, d.seconds];
-                values.forEach((v, i) => { parts[i].valueEl.textContent = pad2(v); });
+                
+                let firstSignificant = false;
+                values.forEach((v, i) => {
+                    parts[i].valueEl.textContent = pad2(v);
+                    
+                    // Lógica para esconder quadrados irrelevantes (anos/meses se forem zero)
+                    // Mas sempre mostra pelo menos Dias, Horas, Minutos, Segundos se Dias > 0
+                    // Ou sempre mostra pelo menos Horas, Minutos, Segundos
+                    if (v > 0 || firstSignificant || i >= 2) { // i >= 2 começa em 'Dias'
+                        firstSignificant = true;
+                        parts[i].box.style.display = 'flex';
+                    } else {
+                        parts[i].box.style.display = 'none';
+                    }
+                });
+                
                 positionCountdownBar();
             }
 

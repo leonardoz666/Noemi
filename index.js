@@ -382,7 +382,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const scale = isMobileViewport ? baseScale * 0.82 : baseScale;
                     const p = heartPoint(t, scale);
                     l.targetX = window.innerWidth / 2 + p.x;
-                    l.targetY = window.innerHeight / 2 + p.y - (isMobileViewport ? 104 : 80);
+                    l.targetY = window.innerHeight / 2 + p.y - (isMobileViewport ? 84 : 80);
                     // Reaplicar o alvo intermediário conforme progresso atual
                     const fraction = (window.__heartProgressFraction ?? 0);
                     l.tx = l.startX + (l.targetX - l.startX) * fraction;
@@ -505,7 +505,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const scale = isMobileViewport ? baseScale * 0.82 : baseScale;
                 const p = heartPoint(t, scale);
                 lily.targetX = window.innerWidth / 2 + p.x;
-                lily.targetY = window.innerHeight / 2 + p.y - (isMobileViewport ? 104 : 80);
+                lily.targetY = window.innerHeight / 2 + p.y - (isMobileViewport ? 84 : 80);
 
                 // Inicialmente, a posição atual é igual à posição inicial
                 lily.tx = x;
@@ -691,7 +691,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (shouldShowParticles && heartPulseTime - lastParticleTime >= 0.02) { // Mais frequente
                 const centerX = window.innerWidth / 2;
                 const isMobile = window.matchMedia('(max-width: 768px)').matches;
-                const centerY = window.innerHeight / 2 + (isMobile ? -48 : 10);
+                const centerY = window.innerHeight / 2 + (isMobile ? -28 : 10);
 
                 // Calcular escala baseada no progresso (0.6 a 1.5) - ainda maior
                 const baseHeartScale = Math.max(0.6, heartProgress * 0.9 + 0.6);

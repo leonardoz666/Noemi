@@ -91,13 +91,13 @@ html {
   background: transparent;
   border: none;
   color: #2f7a52;
-  font-size: 1.05em;
+  font-size: 1.5em;
   font-weight: 600;
   cursor: url('ui/pink2.cur'), pointer !important;
   transition: all 0.3s ease;
   border-radius: 50%;
-  width: 2.5em;
-  height: 2.5em;
+  width: 2.8em;
+  height: 2.8em;
   display: flex;
   align-items: center;
   justify-content: center;

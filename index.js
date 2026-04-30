@@ -25,24 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // *************** BACKGROUND GLOBAL (oculto até após login) ***************
     (function mountGlobalBackground() {
-        if (isMobileViewport) {
-            if (!document.getElementById('staticBgLayer')) {
-                const staticBg = document.createElement('div');
-                staticBg.id = 'staticBgLayer';
-                staticBg.style.cssText = `
-                    position: fixed;
-                    inset: 0;
-                    z-index: 0;
-                    pointer-events: none;
-                    background:
-                        radial-gradient(120% 90% at 50% 110%, rgba(12, 74, 42, 0.85) 0%, rgba(6, 24, 16, 0.9) 45%, rgba(1, 5, 12, 1) 100%),
-                        linear-gradient(180deg, #02071a 0%, #041026 100%);
-                `;
-                document.body.prepend(staticBg);
-            }
-            return;
-        }
-
         if (!document.getElementById('siteBackground')) {
             const bg = document.createElement('iframe');
             bg.id = 'siteBackground';
@@ -58,12 +40,30 @@ document.addEventListener('DOMContentLoaded', () => {
                 pointer-events: none;
                 visibility: hidden;
             `;
-            // Quando o iframe terminar de carregar, garanta que a animação inicie
+            // Quando o iframe terminar de carregar, garanta estado adequado por dispositivo.
             bg.addEventListener('load', () => {
                 try {
                     const doc = bg.contentDocument || bg.contentWindow?.document;
                     const container = doc?.querySelector('.container');
                     if (container) container.classList.remove('container');
+
+                    if (isMobileViewport && doc?.head) {
+                        const freezeStyle = doc.createElement('style');
+                        freezeStyle.id = 'mobileStaticBackgroundStyle';
+                        freezeStyle.textContent = `
+                            *, *::before, *::after {
+                                animation: none !important;
+                                transition: none !important;
+                            }
+                            .bubbles, .flower__light {
+                                display: none !important;
+                            }
+                            .flowers {
+                                transform: scale(0.92) !important;
+                            }
+                        `;
+                        doc.head.appendChild(freezeStyle);
+                    }
                 } catch (_) { /* noop */ }
             });
             document.body.prepend(bg);

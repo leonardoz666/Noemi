@@ -298,6 +298,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const maxClicks = 10;
 
     const createClickButton = () => {
+        const globalAudioPlayer = document.getElementById('globalAudioPlayer');
+        if (globalAudioPlayer) {
+            globalAudioPlayer.style.opacity = '0.45';
+            globalAudioPlayer.style.pointerEvents = 'none';
+        }
+
         // Esconder o container do panda
         const loginContainer = document.querySelector('.container');
         if (loginContainer) {
@@ -348,13 +354,15 @@ document.addEventListener('DOMContentLoaded', () => {
             // Recalcular alvos do coração conforme o novo tamanho da tela
             try {
                 const n = lilies?.length || 0;
+                const isMobileViewport = window.matchMedia('(max-width: 768px)').matches;
                 for (let i = 0; i < n; i++) {
                     const l = lilies[i];
                     const t = (i / n) * Math.PI * 2;
-                    const scale = Math.min(window.innerWidth, window.innerHeight) / 35;
+                    const baseScale = Math.min(window.innerWidth, window.innerHeight) / 35;
+                    const scale = isMobileViewport ? baseScale * 0.82 : baseScale;
                     const p = heartPoint(t, scale);
                     l.targetX = window.innerWidth / 2 + p.x;
-                    l.targetY = window.innerHeight / 2 + p.y - 80;
+                    l.targetY = window.innerHeight / 2 + p.y - (isMobileViewport ? 120 : 80);
                     // Reaplicar o alvo intermediário conforme progresso atual
                     const fraction = (window.__heartProgressFraction ?? 0);
                     l.tx = l.startX + (l.targetX - l.startX) * fraction;
@@ -464,6 +472,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function generateLilies(n) {
             const lilies = [];
+            const isMobileViewport = window.matchMedia('(max-width: 768px)').matches;
             for (let i = 0; i < n; i++) {
                 // posição inicial aleatória
                 const x = Math.random() * window.innerWidth;
@@ -472,10 +481,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // posição alvo no coração (calculada mas não aplicada ainda)
                 const t = (i / n) * Math.PI * 2;
-                const scale = Math.min(window.innerWidth, window.innerHeight) / 35;
+                const baseScale = Math.min(window.innerWidth, window.innerHeight) / 35;
+                const scale = isMobileViewport ? baseScale * 0.82 : baseScale;
                 const p = heartPoint(t, scale);
                 lily.targetX = window.innerWidth / 2 + p.x;
-                lily.targetY = window.innerHeight / 2 + p.y - 80;
+                lily.targetY = window.innerHeight / 2 + p.y - (isMobileViewport ? 120 : 80);
 
                 // Inicialmente, a posição atual é igual à posição inicial
                 lily.tx = x;
@@ -660,7 +670,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (shouldShowParticles && heartPulseTime - lastParticleTime >= 0.02) { // Mais frequente
                 const centerX = window.innerWidth / 2;
-                const centerY = window.innerHeight / 2 + 10; // Desceu um pouco
+                const centerY = window.innerHeight / 2 + (window.matchMedia('(max-width: 768px)').matches ? -10 : 10);
 
                 // Calcular escala baseada no progresso (0.6 a 1.5) - ainda maior
                 const heartScale = Math.max(0.6, heartProgress * 0.9 + 0.6);
@@ -747,14 +757,15 @@ document.addEventListener('DOMContentLoaded', () => {
         // Contador removido
 
         // Criar barra de progresso
+        const isMobileViewport = window.matchMedia('(max-width: 768px)').matches;
         const progressContainer = document.createElement('div');
         progressContainer.style.cssText = `
             position: fixed;
-            bottom: 20px;
+            bottom: ${isMobileViewport ? 78 : 20}px;
             left: 50%;
             transform: translateX(-50%);
-            width: 420px;
-            height: 28px;
+            width: min(420px, calc(100dvw - 24px));
+            height: ${isMobileViewport ? 22 : 28}px;
             background: rgba(255, 255, 255, 0.08);
             border-radius: 14px;
             overflow: visible;
@@ -886,6 +897,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         destroyLilyCanvas();
                         overlay.remove();
                         try { if (blurLayer) blurLayer.style.display = 'none'; } catch (_) { }
+                        if (globalAudioPlayer) {
+                            globalAudioPlayer.style.opacity = '1';
+                            globalAudioPlayer.style.pointerEvents = 'auto';
+                        }
                         showQuiz();
                     }, 5000);
                 }

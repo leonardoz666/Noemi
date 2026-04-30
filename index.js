@@ -13,6 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { passive: false });
 
     // *************** CONFIGURAÇÕES INICIAIS ***************
+    const isMobileViewport = window.matchMedia('(max-width: 768px)').matches;
+
     // Elementos da UI
     const elements = {
         eyeL: document.querySelector(".eyeball-l"),
@@ -23,6 +25,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // *************** BACKGROUND GLOBAL (oculto até após login) ***************
     (function mountGlobalBackground() {
+        if (isMobileViewport) {
+            if (!document.getElementById('staticBgLayer')) {
+                const staticBg = document.createElement('div');
+                staticBg.id = 'staticBgLayer';
+                staticBg.style.cssText = `
+                    position: fixed;
+                    inset: 0;
+                    z-index: 0;
+                    pointer-events: none;
+                    background:
+                        radial-gradient(120% 90% at 50% 110%, rgba(12, 74, 42, 0.85) 0%, rgba(6, 24, 16, 0.9) 45%, rgba(1, 5, 12, 1) 100%),
+                        linear-gradient(180deg, #02071a 0%, #041026 100%);
+                `;
+                document.body.prepend(staticBg);
+            }
+            return;
+        }
+
         if (!document.getElementById('siteBackground')) {
             const bg = document.createElement('iframe');
             bg.id = 'siteBackground';
@@ -52,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Pré-criar camadas para evitar flash (flores + blur)
     (function precreateLayers() {
-        if (!document.getElementById('flowersBackground')) {
+        if (!isMobileViewport && !document.getElementById('flowersBackground')) {
             const flowersFrame = document.createElement('iframe');
             flowersFrame.id = 'flowersBackground';
             flowersFrame.src = 'flowers/dist/index.html';
@@ -3164,6 +3184,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Encaminhar cliques da página para o iframe das flores
         const forwardClickToFlowers = (ev) => {
+            if (!flowersFrame) return;
             try {
                 const x = ev.clientX / window.innerWidth;
                 const y = ev.clientY / window.innerHeight;
@@ -3181,7 +3202,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             } catch (_) { }
         };
-        document.addEventListener('click', forwardClickToFlowers);
+        if (flowersFrame) {
+            document.addEventListener('click', forwardClickToFlowers);
+        }
 
         // Criar teclado numérico estilo da imagem
         const keypadContainer = document.createElement('div');

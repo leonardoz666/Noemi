@@ -1106,7 +1106,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 .quiz-envelope .valentines-day:hover .heart { transform: translateY(-50px) rotate(-45deg); }
                 /* Papel com texto (efeito sem deformar) */
                 .quiz-envelope .paper-panel { position: absolute; top: -220px; left: 50%; transform: translateX(-50%); width: 520px; max-width: 88vw; background: linear-gradient(135deg, #fff5f7, #ffe6ec); border-radius: 16px; box-shadow: 0 8px 25px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.85); opacity: 0; transition: height .45s ease, opacity .45s ease; z-index: 100; overflow: hidden; border: 1px solid rgba(0,0,0,0.06); height: 0; }
-                .quiz-envelope .paper-content { padding: 20px; height: 100%; box-sizing: border-box; display: flex; justify-content: center; align-items: center; }
+                .quiz-envelope .paper-content { padding: 0; height: 100%; box-sizing: border-box; display: flex; justify-content: center; align-items: center; }
                 .quiz-envelope.open .paper-panel { height: 360px; opacity: 1; }
                 `;
                 document.head.appendChild(scopedStyles);
@@ -1135,7 +1135,7 @@ document.addEventListener('DOMContentLoaded', () => {
             paperPanel.className = 'paper-panel';
             const paperContent = document.createElement('div');
             paperContent.className = 'paper-content';
-            paperContent.innerHTML = `<img src="ui/gif.gif" alt="Surpresa" style="max-width: 100%; max-height: 100%; border-radius: 8px; object-fit: contain; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">`;
+            paperContent.innerHTML = `<img src="ui/gif.gif" alt="Surpresa" style="width: 100%; height: 100%; border-radius: 16px; object-fit: cover; display: block;">`;
             paperPanel.appendChild(paperContent);
 
             scaled.appendChild(valentines);

@@ -382,7 +382,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const scale = isMobileViewport ? baseScale * 0.82 : baseScale;
                     const p = heartPoint(t, scale);
                     l.targetX = window.innerWidth / 2 + p.x;
-                    l.targetY = window.innerHeight / 2 + p.y - (isMobileViewport ? 64 : 80);
+                    l.targetY = window.innerHeight / 2 + p.y - (isMobileViewport ? 52 : 80);
                     // Reaplicar o alvo intermediário conforme progresso atual
                     const fraction = (window.__heartProgressFraction ?? 0);
                     l.tx = l.startX + (l.targetX - l.startX) * fraction;
@@ -505,7 +505,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const scale = isMobileViewport ? baseScale * 0.82 : baseScale;
                 const p = heartPoint(t, scale);
                 lily.targetX = window.innerWidth / 2 + p.x;
-                lily.targetY = window.innerHeight / 2 + p.y - (isMobileViewport ? 64 : 80);
+                lily.targetY = window.innerHeight / 2 + p.y - (isMobileViewport ? 52 : 80);
 
                 // Inicialmente, a posição atual é igual à posição inicial
                 lily.tx = x;
@@ -1320,10 +1320,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const successImg = document.createElement('img');
         successImg.src = 'ui/euteamo.png';
         successImg.style.cssText = `
-                width: 600px;
-                height: 500px;
+                width: min(92vw, 600px);
+                max-height: 78dvh;
+                height: auto;
                 animation: popIn 0.5s ease-out, float 4s ease-in-out infinite;
                 pointer-events: none;
+                object-fit: contain;
                 filter: 
                     drop-shadow(0 0 20px rgba(255, 20, 147, 0.5))
                     brightness(1.1);
@@ -3185,6 +3187,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // Encaminhar cliques da página para o iframe das flores
         const forwardClickToFlowers = (ev) => {
             if (!flowersFrame) return;
+            const clickTarget = ev.target;
+            if (clickTarget && clickTarget.closest && clickTarget.closest('.keypad-container')) return;
             try {
                 const x = ev.clientX / window.innerWidth;
                 const y = ev.clientY / window.innerHeight;

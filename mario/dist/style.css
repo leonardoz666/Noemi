@@ -1,0 +1,181 @@
+html,
+body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+}
+
+body {
+  height: 100%;
+  background-image: url("https://github.com/Kageetai/mario-background-parallax/blob/master/img/ground.png?raw=true"), url("https://github.com/Kageetai/mario-background-parallax/blob/master/img/bushes.png?raw=true"), url("https://raw.githubusercontent.com/Kageetai/mario-background-parallax/master/img/back.png?raw=true");
+  background-color: #f8e0b0;
+  background-repeat: repeat-x, repeat-x, repeat-x;
+  background-position: left 0px bottom 0px, left 0px bottom 22px, left 0px bottom 0px;
+  animation: back 2.5s linear forwards;
+}
+
+/* Mario sprite entering from the left */
+.mario {
+  position: fixed;
+  bottom: -5px;
+  left: -150px;
+  width: 64px;
+  height: 99px;
+  background-image: url("https://github.com/Kageetai/mario-background-parallax/blob/master/img/mario.gif?raw=true");
+  background-repeat: no-repeat;
+  background-size: contain;
+  image-rendering: pixelated;
+  z-index: 11;
+}
+
+.mario.stopped {
+  background-image: url("./mario.png");
+}
+
+/* Princess Peach sprite (save your image as dist/peach.png or update the URL below) */
+.peach {
+  position: fixed;
+  bottom: 18px;
+  left: 100vw;
+  width: 48px;
+  height: 79px;
+  background-image: url("./peach.gif");
+  background-repeat: no-repeat;
+  background-size: contain;
+  image-rendering: pixelated;
+  z-index: 10;
+}
+
+/* GIF que aparece entre os dois quando param */
+.between {
+  position: fixed;
+  bottom: 56px;
+  left: 50%;
+  width: 64px;
+  height: 64px;
+  margin-left: -24px;
+  background-image: url("./co.gif");
+  background-repeat: no-repeat;
+  background-size: contain;
+  image-rendering: pixelated;
+  z-index: 12;
+  display: none;
+  cursor: pointer;
+}
+
+/* Kiss GIF overlay shown after clicking the heart */
+.kiss {
+  position: fixed;
+  bottom: 150px;
+  left: 50%;
+  width: 400px;
+  height: 400px;
+  margin-left: -155px; /* slightly to the right of exact center */
+  background-image: url("./beijo.gif");
+  background-repeat: no-repeat;
+  background-size: contain;
+  image-rendering: pixelated;
+  z-index: 13;
+  display: none;
+  animation: kissPop 280ms ease-out, kissPulse 1.4s ease-in-out 300ms infinite alternate;
+  will-change: transform, opacity;
+}
+
+/* Caption overlay above the GIF with typewriter effect container */
+.caption {
+  position: fixed;
+  left: 50%;
+  bottom: calc(150px + 400px + 320px);
+  transform: translateX(calc(-50% + 30px));
+  max-width: min(90vw, 720px);
+  padding: 0;
+  background: transparent;
+  color: #000;
+  font-family: 'Cormorant Garamond', Georgia, "Times New Roman", Times, serif;
+  font-size: 56px;
+  line-height: 1.15;
+  text-align: center;
+  text-shadow: none;
+  z-index: 14;
+  display: none;
+  max-width: none;
+  white-space: nowrap;
+  overflow: visible;
+  word-break: normal;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@keyframes kissPop {
+  0% { transform: scale(0.6); opacity: 0; }
+  60% { transform: scale(1.05); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes kissPulse {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.12); }
+}
+
+.peach.stopped {
+  background-image: url("./peach.png");
+}
+
+@keyframes back {
+  0% {
+    background-position: left 0px bottom 0px, left 0px bottom 22px, left 0px bottom 0px;
+  }
+  100% {
+    background-position: left -816px bottom 0px, left -508px bottom 22px, left -256px bottom 0px;
+  }
+}
+
+/* Scattered hearts */
+.falling-heart {
+  position: fixed;
+  color: #e11d48; /* rose-600 */
+  pointer-events: none;
+  z-index: 15;
+  animation-name: gentleFloat, horizontalMove;
+  animation-timing-function: ease-in-out, linear;
+  animation-iteration-count: infinite, infinite;
+  animation-duration: 3s, 8s;
+}
+
+@keyframes gentleFloat {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(5deg); }
+}
+
+@keyframes horizontalMove {
+  0% { transform: translateX(0px); }
+  25% { transform: translateX(50px); }
+  50% { transform: translateX(0px); }
+  75% { transform: translateX(-50px); }
+  100% { transform: translateX(0px); }
+}
+
+/* PNG Dúvida com animação de quique */
+.duvida {
+  position: fixed;
+  width: 100px;
+  height: 100px;
+  left: 50%;
+  top: 80%;
+  transform: translateX(-50%);
+  cursor: pointer;
+  z-index: 20;
+  animation: bounce 1s infinite ease-in-out;
+  background-image: url("../ui/duvida.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(-20px); }
+}

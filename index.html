@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Noemi</title>
+    <meta name="color-scheme" content="dark">
+    <meta name="theme-color" content="#000000">
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css" />
+    <script src="index.js"></script>
+    <style>
+        body {
+            cursor: url('ui/pink.cur'), auto;
+            background: transparent;
+        }
+
+        /* Aplica a todos os elementos clicáveis */
+        button,
+        input,
+        a,
+        [onclick],
+        .clickable {
+            cursor: url('ui/pink2.cur'), pointer !important;
+        }
+
+        /* Elementos do panda */
+        .panda-face,
+        .hand-l,
+        .hand-r {
+            cursor: url('ui/pink2.cur'), grab !important;
+        }
+
+        .card {
+            cursor: url('ui/pink2.cur'), pointer !important;
+        }
+
+        /* Adicionar regra para imagens clicáveis */
+        img[src*=".png"],
+        img[src*=".jpg"] {
+            cursor: url('ui/pink2.cur'), pointer !important;
+        }
+
+        .memory-card {
+            cursor: url('ui/pink2.cur'), pointer !important;
+        }
+
+        /* Forçar cursor em todos os estados do input */
+        input[type="text"],
+        input[type="password"] {
+            cursor: url('ui/pink2.cur'), text !important;
+            color: #000000 !important;
+        }
+
+        input[type="text"]:active,
+        input[type="password"]:active,
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            cursor: url('ui/pink2.cur'), text !important;
+        }
+
+        /* Labels dos inputs */
+        form label {
+            cursor: url('ui/pink2.cur'), text !important;
+            color: #000000 !important;
+        }
+
+        /* Inputs em todos os estados */
+        input[type="text"],
+        input[type="password"],
+        input[type="text"]:hover,
+        input[type="password"]:hover,
+        input[type="text"]:focus,
+        input[type="password"]:focus,
+        input[type="text"]:active,
+        input[type="password"]:active {
+            cursor: url('ui/pink2.cur'), text !important;
+        }
+
+        /* Estado de seleção de texto */
+        input[type="text"]::selection,
+        input[type="password"]::selection {
+            cursor: url('ui/pink2.cur'), text !important;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Container Principal -->
+    <div class="container">
+    </div>
+
+</body>
+
+</html>

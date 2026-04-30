@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Super Mario Scrolling Background</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&display=swap" rel="stylesheet">
+
+  </head>
+    
+  <body>
+    <div id="mario" class="mario" aria-label="Mario"></div>
+    <div id="peach" class="peach" aria-label="Princess Peach"></div>
+    <div id="between" class="between" aria-label="Coração"></div>
+    <div id="kiss" class="kiss" aria-hidden="true"></div>
+    <div id="caption" class="caption" aria-hidden="true"></div>
+    <div id="duvida" class="duvida" aria-label="Dúvida" style="display: none;"></div>
+
+    <script src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <script>
+      // Move Peach from right to left and Mario from left to right; stop face-to-face
+      (function() {
+        var peach = document.getElementById('peach');
+        var mario = document.getElementById('mario');
+        var between = document.getElementById('between');
+        var kiss = document.getElementById('kiss');
+        var caption = document.getElementById('caption');
+        if (!peach || !mario || !between || !kiss || !caption) return;
+
+        var meetGap = 26; // space between characters when they stop
+        var speedPeach = 2.2; // slower so they meet further right
+        var speedMario = 2.27; // faster so they meet further right
+        var stopped = false;
+
+        function step() {
+          if (stopped) return;
+          var peachRect = peach.getBoundingClientRect();
+          var marioRect = mario.getBoundingClientRect();
+
+          var nextPeachLeft = peachRect.left - speedPeach;
+          var nextMarioLeft = marioRect.left + speedMario;
+
+          // Stop when fronts are within meetGap
+          if (nextMarioLeft + marioRect.width >= nextPeachLeft - meetGap) {
+            // Do not reposition; stop where they naturally are to avoid teleporting
+            stopped = true;
+            // swap to static images
+            mario.classList.add('stopped');
+            peach.classList.add('stopped');
+            // position and show middle GIF (heart)
+            var midX = (marioRect.right + peachRect.left - meetGap) / 2;
+            var midY = Math.min(marioRect.top, peachRect.top);
+            between.style.left = midX + 'px';
+            between.style.display = 'block';
+            return;
+          }
+
+          mario.style.left = nextMarioLeft + 'px';
+          peach.style.left = nextPeachLeft + 'px';
+          requestAnimationFrame(step);
+        }
+
+        // initialize off-screen positions
+        mario.style.left = '-150px';
+        peach.style.left = window.innerWidth + 'px';
+        requestAnimationFrame(step);
+
+        window.addEventListener('resize', function(){
+          if (stopped) return; // do nothing after stop
+          // keep peach start just off-screen on resize before animation possibly restarts
+          if (peach.getBoundingClientRect().left > window.innerWidth) {
+            peach.style.left = window.innerWidth + 'px';
+          }
+        });
+        function typeWriter(el, text, delayMs, onDone) {
+          el.textContent = '';
+          var index = 0;
+          (function tick() {
+            if (index <= text.length) {
+              el.textContent = text.slice(0, index);
+              index++;
+              setTimeout(tick, delayMs);
+            } else if (typeof onDone === 'function') {
+              onDone();
+            }
+          })();
+        }
+
+        function startHeartRain() {
+          var totalHearts = 150; // increased from 80
+          for (var i = 0; i < totalHearts; i++) {
+            (function(iCopy){
+              var delay = Math.random() * 2500; // staggered start
+              setTimeout(function(){
+                var heart = document.createElement('span');
+                heart.className = 'falling-heart';
+                heart.textContent = '❤';
+                var left = Math.random() * 100; // vw
+                var top = Math.random() * 100; // vh - spread across screen height
+                var size = 24 + Math.random() * 40; // px
+                heart.style.left = left + 'vw';
+                heart.style.top = top + 'vh';
+                heart.style.fontSize = size + 'px';
+                document.body.appendChild(heart);
+              }, delay);
+            })(i);
+          }
+        }
+
+        // Click handler to show kiss GIF and caption
+        between.addEventListener('click', function() {
+          // center kiss at same middle position as heart
+          kiss.style.left = between.style.left;
+          kiss.style.display = 'block';
+          between.style.display = 'none';
+
+          // position caption above the kiss gif (synced with CSS base values)
+          var kissStyles = window.getComputedStyle(kiss);
+          var kissBottom = parseInt(kissStyles.bottom, 10) || 0;
+          var kissHeight = kiss.clientHeight || 0;
+          // match the CSS extra offset of 320px
+          var captionBottom = kissBottom + kissHeight + 320;
+          caption.style.left = kiss.style.left;
+          caption.style.bottom = captionBottom + 'px';
+          caption.style.display = 'block';
+
+          // start typewriter effect (with hearts at start and end)
+          typeWriter(caption, '❤ Por você eu passaria por todos os levels do mundo ❤', 40, function(){
+            startHeartRain();
+            // Mostrar o PNG "duvida" após a chuva de corações
+            setTimeout(function() {
+              var duvida = document.getElementById('duvida');
+              if (duvida) {
+                duvida.style.display = 'block';
+              }
+            }, 3000); // Mostrar após 3 segundos da chuva de corações
+          });
+        });
+
+        // Click handler para o PNG "duvida"
+        var duvida = document.getElementById('duvida');
+        if (duvida) {
+          duvida.addEventListener('click', function() {
+            // Fechar o overlay do mario e voltar para a página principal
+            if (window.parent && window.parent !== window) {
+              // Se estivermos em um iframe, comunicar com o parent
+              window.parent.postMessage('closeMarioOverlay', '*');
+            }
+          });
+        }
+
+        // Listener para mensagens do parent (se estivermos em iframe)
+        window.addEventListener('message', function(event) {
+          if (event.data === 'showDuvida') {
+            var duvida = document.getElementById('duvida');
+            if (duvida) {
+              duvida.style.display = 'block';
+            }
+          }
+        });
+      })();
+    </script>
+  </body>
+  
+</html>

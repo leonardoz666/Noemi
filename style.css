@@ -23,10 +23,12 @@ html {
   overscroll-behavior: none;
 }
 .container {
-  height: min(31.25em, 92vh);
-  width: min(31.25em, 92vw);
+  height: 31.25em;
+  width: 31.25em;
   position: absolute;
-  transform: translate(-50%, -50%);
+  --container-scale: min(1, calc(92vw / 31.25em), calc(88dvh / 31.25em));
+  transform: translate(-50%, -50%) scale(var(--container-scale));
+  transform-origin: center center;
   top: 50%;
   left: 50%;
   display: flex;
@@ -398,7 +400,7 @@ form button {
 }
 @media screen and (max-width: 500px) {
   .container {
-    font-size: 14px;
+    --container-scale: min(1, calc(94vw / 31.25em), calc(84dvh / 31.25em));
   }
 }
 

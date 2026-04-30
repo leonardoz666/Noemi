@@ -95,17 +95,21 @@ document.addEventListener('DOMContentLoaded', () => {
         audioPlayer.id = 'globalAudioPlayer';
         audioPlayer.style.cssText = `
             position: fixed;
-            bottom: 12px;
-            right: 12px;
-            width: min(180px, calc(100dvw - 24px));
-            max-width: calc(100dvw - 24px);
-            background: rgba(40, 40, 40, 0);
-            border-radius: 12px;
-            padding: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: min(340px, calc(100dvw - 20px));
+            max-width: calc(100dvw - 20px);
+            background: rgba(0, 0, 0, 0.45);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 14px;
+            padding: 8px 10px;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             z-index: 20000;
             color: white;
-            font-family: 'Arial', sans-serif;
+            font-family: 'Poppins', sans-serif;
             pointer-events: auto;
             box-sizing: border-box;
             overflow: hidden;
@@ -123,22 +127,28 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         audioPlayer.innerHTML = `
-            <div style="display: flex; align-items: center; margin-bottom: 8px; width: 100%; min-width: 0;">
-                <img src="music/capa.jpg" style="width: 40px; height: 40px; border-radius: 4px; margin-right: 8px; object-fit: cover;">
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px; width: 100%; min-width: 0;">
+                <button class="play-pause-btn" style="
+                    width: 24px;
+                    min-width: 24px;
+                    height: 24px;
+                    border-radius: 50%;
+                    background: rgba(255, 255, 255, 0.14);
+                    border: none;
+                    color: #fff;
+                    font-size: 12px;
+                    line-height: 1;
+                    cursor: pointer;
+                    display: grid;
+                    place-items: center;
+                ">⏸</button>
                 <div style="min-width: 0; flex: 1;">
-                    <div style="font-size: 12px; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Como Nossos Pais</div>
-                    <div style="font-size: 10px; color: #b3b3b3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Elis Regina</div>
+                    <div style="font-size: 11px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Como Nossos Pais</div>
+                    <div style="font-size: 9px; color: #cfcfcf; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Elis Regina</div>
                 </div>
             </div>
-            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px; width: 100%; min-width: 0;">
-                <button class="play-pause-btn" style="
-                    background: none;
-                    border: none;
-                    color: white;
-                    font-size: 16px;
-                    cursor: pointer;
-                    padding: 3px;
-                ">⏸</button>
+            <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 6px; width: 100%; min-width: 0;">
+                <span style="font-size: 9px; color: #cfcfcf; width: 12px;">▶</span>
                 <input class="seek-bar" type="range" style="
                     flex-grow: 1;
                     min-width: 0;
@@ -151,8 +161,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     cursor: pointer;
                 " value="0">
             </div>
-            <div style="display: flex; align-items: center; gap: 8px; width: 100%; min-width: 0;">
-                <span style="font-size: 12px; color: #b3b3b3; min-width: 20px;">🔊</span>
+            <div style="display: flex; align-items: center; gap: 6px; width: 100%; min-width: 0;">
+                <span style="font-size: 10px; color: #cfcfcf; width: 12px;">🔉</span>
                 <input class="volume-bar" type="range" style="
                     flex-grow: 1;
                     min-width: 0;
@@ -165,9 +175,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     cursor: pointer;
                 " min="0" max="100" value="1.5">
                 <span class="volume-display" style="
-                    font-size: 10px;
-                    color: #b3b3b3;
-                    min-width: 30px;
+                    font-size: 9px;
+                    color: #cfcfcf;
+                    min-width: 24px;
                     text-align: center;
                 ">1.5%</span>
             </div>

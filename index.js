@@ -361,7 +361,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const scale = isMobileViewport ? baseScale * 0.82 : baseScale;
                     const p = heartPoint(t, scale);
                     l.targetX = window.innerWidth / 2 + p.x;
-                    l.targetY = window.innerHeight / 2 + p.y - (isMobileViewport ? 120 : 80);
+                    l.targetY = window.innerHeight / 2 + p.y - (isMobileViewport ? 104 : 80);
                     // Reaplicar o alvo intermediário conforme progresso atual
                     const fraction = (window.__heartProgressFraction ?? 0);
                     l.tx = l.startX + (l.targetX - l.startX) * fraction;
@@ -484,7 +484,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const scale = isMobileViewport ? baseScale * 0.82 : baseScale;
                 const p = heartPoint(t, scale);
                 lily.targetX = window.innerWidth / 2 + p.x;
-                lily.targetY = window.innerHeight / 2 + p.y - (isMobileViewport ? 120 : 80);
+                lily.targetY = window.innerHeight / 2 + p.y - (isMobileViewport ? 104 : 80);
 
                 // Inicialmente, a posição atual é igual à posição inicial
                 lily.tx = x;
@@ -674,7 +674,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Calcular escala baseada no progresso (0.6 a 1.5) - ainda maior
                 const baseHeartScale = Math.max(0.6, heartProgress * 0.9 + 0.6);
-                const heartScale = isMobile ? baseHeartScale * 0.82 : baseHeartScale;
+                const heartScale = isMobile ? baseHeartScale * 0.76 : baseHeartScale;
 
                 // Calcular intensidade baseada no progresso (muito mais partículas)
                 const baseIntensity = 8; // Base de 8 partículas
@@ -762,7 +762,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const progressContainer = document.createElement('div');
         progressContainer.style.cssText = `
             position: fixed;
-            bottom: ${isMobileViewport ? 68 : 20}px;
+            bottom: ${isMobileViewport ? 56 : 20}px;
             left: 50%;
             transform: translateX(-50%);
             width: min(420px, calc(100dvw - 24px));

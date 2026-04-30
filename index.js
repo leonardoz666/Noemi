@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Vercel trigger commit
     // Trava rolagem da página em qualquer fase da experiência.
     document.documentElement.style.overflow = 'hidden';
     document.body.style.overflow = 'hidden';

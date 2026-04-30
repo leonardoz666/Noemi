@@ -84,9 +84,10 @@ document.addEventListener('DOMContentLoaded', () => {
         audioPlayer.id = 'globalAudioPlayer';
         audioPlayer.style.cssText = `
             position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 200px;
+            bottom: 12px;
+            right: 12px;
+            width: min(200px, calc(100vw - 24px));
+            max-width: calc(100vw - 24px);
             background: rgba(40, 40, 40, 0);
             border-radius: 12px;
             padding: 10px;

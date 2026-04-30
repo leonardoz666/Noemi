@@ -9,17 +9,17 @@
   "description": "Aplicativo com a experiencia romantica Para Noemi.",
   "icons": [
     {
-      "src": "ui/cc.png",
+      "src": "ui/Botao.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "ui/cc.png",
+      "src": "ui/Botao.png",
       "sizes": "512x512",
       "type": "image/png"
     },
     {
-      "src": "ui/cc.png",
+      "src": "ui/Botao.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"

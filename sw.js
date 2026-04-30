@@ -1,11 +1,11 @@
-const CACHE_NAME = "noemi-app-v2";
+const CACHE_NAME = "noemi-app-v3";
 const APP_SHELL = [
   "./",
   "./index.html",
   "./style.css",
   "./index.js",
   "./manifest.webmanifest",
-  "./ui/cc.png"
+  "./ui/Botao.png"
 ];
 
 self.addEventListener("install", (event) => {

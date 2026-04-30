@@ -90,10 +90,31 @@ document.addEventListener('DOMContentLoaded', () => {
     // *************** PLAYER DE MÚSICA GLOBAL ***************
     function mountAudioPlayer(showPlayHint = false) {
         if (document.getElementById('globalAudioPlayer')) return;
+        const isMobile = window.matchMedia('(max-width: 768px)').matches;
 
         const audioPlayer = document.createElement('div');
         audioPlayer.id = 'globalAudioPlayer';
-        audioPlayer.style.cssText = `
+        audioPlayer.style.cssText = isMobile ? `
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: min(220px, calc(100dvw - 20px));
+            max-width: calc(100dvw - 20px);
+            background: rgba(0, 0, 0, 0.45);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 14px;
+            padding: 8px;
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.22);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 20000;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            pointer-events: auto;
+            box-sizing: border-box;
+            overflow: hidden;
+        ` : `
             position: fixed;
             bottom: 10px;
             left: 50%;
@@ -119,14 +140,22 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!window.gameAudio) {
             audio = new Audio();
             audio.src = 'music/comonossos.mp3';
-            audio.volume = 0.015;
+            audio.volume = isMobile ? 0.4 : 0.015;
             audio.preload = 'auto';
             window.gameAudio = audio;
         } else {
             audio = window.gameAudio;
+            if (isMobile) audio.volume = 0.4;
         }
 
-        audioPlayer.innerHTML = `
+        audioPlayer.innerHTML = isMobile ? `
+            <div style="display: flex; align-items: center; gap: 8px; width: 100%; min-width: 0;">
+                <img src="music/capa.jpg" style="width: 34px; height: 34px; border-radius: 6px; object-fit: cover; flex: 0 0 auto;">
+                <div style="min-width: 0; flex: 1;">
+                    <div style="font-size: 11px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Como Nossos Pais</div>
+                </div>
+            </div>
+        ` : `
             <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px; width: 100%; min-width: 0;">
                 <button class="play-pause-btn" style="
                     width: 24px;
@@ -190,6 +219,8 @@ document.addEventListener('DOMContentLoaded', () => {
         audio.play().catch(() => {
             // Silenciosamente falha; o usuário pode dar play quando quiser
         });
+
+        if (isMobile) return;
 
         const playPauseBtn = audioPlayer.querySelector('.play-pause-btn');
         const seekBar = audioPlayer.querySelector('.seek-bar');

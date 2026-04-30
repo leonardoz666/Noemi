@@ -502,3 +502,36 @@ video::-webkit-media-controls-panel {
 video::-webkit-media-controls-play-button {
     display: none !important;
 }
+
+/* ===================== MOBILE RESPONSIVE ===================== */
+@media screen and (max-width: 768px) {
+    /* Login / Panda */
+    .container {
+        font-size: 10px !important;
+        width: 22em !important;
+        height: 22em !important;
+    }
+    .keypad-container {
+        width: 18em !important;
+        min-height: 14em !important;
+        padding: 1.4em 1.8em 1.8em !important;
+    }
+    .keypad-grid {
+        gap: 1em 2.5em !important;
+    }
+    .panda-face {
+        height: 5.5em !important;
+        width: 6.2em !important;
+    }
+    .ear-l { left: 7.5em !important; }
+    .ear-r { right: 7.5em !important; }
+    .hand-l { left: 5em !important; }
+    .hand-r { right: 5em !important; }
+    .paw-l { left: 7em !important; }
+    .paw-r { right: 7em !important; }
+    form {
+        width: 18em !important;
+        height: 14em !important;
+        padding: 0 1.8em !important;
+    }
+}

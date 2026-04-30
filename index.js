@@ -1910,7 +1910,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     memoryGame.style.gap = '8px';
                     memoryGame.style.maxWidth = 'min(82vw, 780px)';
                     memoryGame.style.padding = '8px';
-                    memoryGame.style.top = '56%';
+                    memoryGame.style.top = '53%';
 
                     memoryGame.querySelectorAll('.memory-card').forEach((card) => {
                         card.style.width = '74px';
@@ -2157,14 +2157,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 const rect = memoryGame.getBoundingClientRect();
                 const isMobile = window.matchMedia('(max-width: 768px)').matches;
                 const isMobileLandscape = window.matchMedia('(max-width: 1024px) and (orientation: landscape)').matches;
-                const scale = isMobile ? Math.min(1, (window.innerWidth - 20) / 450) : Math.min(1, Math.max(0.7, rect.width / 900));
+                const baseScale = isMobile ? Math.min(1, (window.innerWidth - 20) / 450) : Math.min(1, Math.max(0.7, rect.width / 900));
+                const scale = isMobileLandscape ? (baseScale * 0.86) : baseScale;
 
                 countdownBar.style.left = '50%';
                 countdownBar.style.transform = `translateX(-50%) scale(${scale})`;
                 countdownBar.style.transformOrigin = 'center center';
                 
                 if (isMobile) {
-                    countdownBar.style.gap = '8px';
+                    countdownBar.style.gap = isMobileLandscape ? '6px' : '8px';
                     if (isMobileLandscape) {
                         countdownBar.style.top = Math.min(window.innerHeight - 58, rect.bottom + 8) + 'px';
                         countdownBar.style.bottom = 'auto';
@@ -2384,12 +2385,12 @@ document.addEventListener('DOMContentLoaded', () => {
                         buttonsBar.style.transform = 'none';
                         buttonsBar.style.transformOrigin = 'center top';
                         buttonsBar.style.justifyContent = 'flex-end';
-                        jornalButton.style.width = '132px';
-                        jornalButton.style.height = '38px';
-                        jornalButton.style.fontSize = '0.95em';
-                        jornalButton.style.letterSpacing = '1px';
+                        jornalButton.style.width = '112px';
+                        jornalButton.style.height = '32px';
+                        jornalButton.style.fontSize = '0.82em';
+                        jornalButton.style.letterSpacing = '0.8px';
                         jornalButton.style.borderRadius = '.6rem';
-                        jornalButton.style.boxShadow = '0 5px 0 #ff1493';
+                        jornalButton.style.boxShadow = '0 4px 0 #ff1493';
                     } else {
                         buttonsBar.style.right = 'auto';
                         buttonsBar.style.left = rect.left + 'px';

@@ -84,8 +84,8 @@ html {
 .keypad-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1.6em 4.2em;
-  padding: 1.2em 1em 0;
+  gap: 1.1em 3.2em;
+  padding: 0.7em 1em 0;
 }
 .keypad-grid .key {
   background: transparent;
@@ -96,8 +96,9 @@ html {
   cursor: url('ui/pink2.cur'), pointer !important;
   transition: all 0.3s ease;
   border-radius: 50%;
-  width: 2.8em;
-  height: 2.8em;
+  width: 2.2em;
+  height: 2.2em;
+  line-height: 1;
   display: flex;
   align-items: center;
   justify-content: center;

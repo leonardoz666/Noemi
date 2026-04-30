@@ -1146,6 +1146,20 @@ document.addEventListener('DOMContentLoaded', () => {
             // Som da baleia
             const baleiaSound = new Audio('ui/baleiasom.mp3');
 
+            // Repetir som ao tocar no GIF
+            const gifImg = paperContent.querySelector('img');
+            if (gifImg) {
+                gifImg.style.cursor = 'pointer';
+                gifImg.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    try {
+                        baleiaSound.currentTime = 0;
+                        baleiaSound.play().catch(() => { });
+                    } catch (_) { }
+                });
+            }
+
             // Clique no coração abre/fecha o papel (apenas após concluir o quiz)
             const togglePaper = () => {
                 if (currentQuestion >= questions.length) {

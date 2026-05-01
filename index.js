@@ -1144,7 +1144,7 @@ document.addEventListener('DOMContentLoaded', () => {
             envelopeContainer.appendChild(wrapper);
 
             // Som da baleia
-            const baleiaSound = new Audio('ui/baleiasom.mp4');
+            const baleiaSound = new Audio('ui/baleiasom.mp3 ');
 
             // Repetir som ao tocar no GIF
             const gifImg = paperContent.querySelector('img');
@@ -2417,7 +2417,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     const finalTop = Math.min(maxTop, Math.max(minTop, desired));
 
                     if (mobileLandscape) {
-                        buttonsBar.style.top = Math.max(8, rect.top + 8) + 'px';
+                        // Em landscape mobile, manter os botões acima do grid para não cobrir cartas
+                        buttonsBar.style.top = Math.max(8, finalTop) + 'px';
                         buttonsBar.style.padding = '0 12px';
                     } else {
                         buttonsBar.style.top = finalTop + 'px';

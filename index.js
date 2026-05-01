@@ -1144,7 +1144,7 @@ document.addEventListener('DOMContentLoaded', () => {
             envelopeContainer.appendChild(wrapper);
 
             // Som da baleia
-            const baleiaSound = new Audio('ui/baleiasom.mp3');
+            const baleiaSound = new Audio('ui/baleiasom.mp4');
 
             // Repetir som ao tocar no GIF
             const gifImg = paperContent.querySelector('img');
@@ -2733,6 +2733,66 @@ document.addEventListener('DOMContentLoaded', () => {
                     font-family: 'Evil Empire', sans-serif;
                     z-index: 1;
                 `;
+                // Criar botão BALEIA (embaixo de JORNAL)
+                const baleiaButton = document.createElement('button');
+                baleiaButton.id = 'baleiaButton';
+                baleiaButton.textContent = 'BALEIA';
+                baleiaButton.style.cssText = `
+                    width: 184px;
+                    height: 48px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 1rem;
+                    font-size: 1.125em;
+                    font-weight: 800;
+                    letter-spacing: 2px;
+                    color: #fff;
+                    background: linear-gradient(45deg, #ff69b4, #ff1493);
+                    border: 2px solid #ff1493;
+                    border-radius: .75rem;
+                    box-shadow: 0 8px 0 #ff1493;
+                    transform: skew(-10deg);
+                    filter: drop-shadow(0 10px 10px #ff0095);
+                    transition: all .1s ease;
+                    font-family: 'Evil Empire', sans-serif;
+                    z-index: 1;
+                `;
+                baleiaButton.addEventListener('click', () => {
+                    const audio = new Audio('ui/baleiasom.mp4');
+                    audio.play();
+                    
+                    // Adicionar um efeito visual simples (opcional, mas legal)
+                    const effect = document.createElement('div');
+                    effect.textContent = '🐋';
+                    effect.style.cssText = `
+                        position: fixed;
+                        font-size: 100px;
+                        left: 50%;
+                        top: 50%;
+                        transform: translate(-50%, -50%);
+                        z-index: 20000;
+                        pointer-events: none;
+                        animation: whale-jump 2s forwards ease-in-out;
+                    `;
+                    
+                    if (!document.getElementById('whale-style')) {
+                        const style = document.createElement('style');
+                        style.id = 'whale-style';
+                        style.textContent = `
+                            @keyframes whale-jump {
+                                0% { transform: translate(-50%, 100vh) scale(0.5); opacity: 0; }
+                                50% { transform: translate(-50%, -50%) scale(1.5); opacity: 1; }
+                                100% { transform: translate(-50%, -100vh) scale(0.5); opacity: 0; }
+                            }
+                        `;
+                        document.head.appendChild(style);
+                    }
+                    
+                    document.body.appendChild(effect);
+                    setTimeout(() => effect.remove(), 2000);
+                });
+
                 const layoutJornalOverlay = (overlayEl, frameEl, closeBtnEl) => {
                     if (!overlayEl || !frameEl || !closeBtnEl) return;
                     const mobileLandscape = window.matchMedia('(max-width: 1024px) and (orientation: landscape)').matches;
@@ -2855,8 +2915,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (audioPlayer) audioPlayer.style.display = 'none';
                 });
 
-                // Adicionar efeito de clique apenas uma vez
-                [jornalButton].forEach(button => {
+                // Adicionar efeito de clique a todos os botões
+                [gameButton, metasButton, jornalButton, baleiaButton].forEach(button => {
                     button.addEventListener('mousedown', () => {
                         button.style.letterSpacing = '0px';
                         button.style.transform = 'skew(-10deg) translateY(8px)';
@@ -2870,8 +2930,22 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
                 });
 
+                // Criar container vertical para JORNAL e BALEIA
+                const jornalBaleiaContainer = document.createElement('div');
+                jornalBaleiaContainer.style.cssText = `
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 12px;
+                `;
+                jornalBaleiaContainer.appendChild(jornalButton);
+                jornalBaleiaContainer.appendChild(baleiaButton);
+
                 // Adicionar os botões à barra e posicionar
-                buttonsBar.appendChild(jornalButton);
+                buttonsBar.appendChild(gameButton);
+                buttonsBar.appendChild(metasButton);
+                buttonsBar.appendChild(jornalBaleiaContainer);
+                
                 document.body.appendChild(buttonsBar);
                 positionButtonsBar();
                 window.addEventListener('resize', positionButtonsBar);

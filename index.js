@@ -2386,63 +2386,48 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Verificar se os botões já existem antes de criar
             if (!document.getElementById('loveButton')) {
-                // Barra de botões alinhada ao grid
+                // Barra de botões (BALEIA na esquerda, JORNAL na direita)
                 const buttonsBar = document.createElement('div');
                 buttonsBar.id = 'buttonsBar';
                 buttonsBar.style.cssText = `
                     position: fixed;
                     display: flex;
-                    justify-content: center;
+                    justify-content: space-between;
                     align-items: center;
-                    gap: 16px;
+                    padding: 0 24px;
                     z-index: 9999;
+                    left: 0;
+                    right: 0;
+                    pointer-events: none;
                 `;
 
-                // Função para posicionar a barra alinhada ao grid de cartas
+                // Função para posicionar a barra alinhada à tela
                 const positionButtonsBar = () => {
                     const rect = memoryGame.getBoundingClientRect();
                     const mobileLandscape = window.matchMedia('(max-width: 1024px) and (orientation: landscape)').matches;
                     const scale = Math.min(1, Math.max(0.75, rect.width / 900));
                     const titleBottom = topText?.getBoundingClientRect()?.bottom || 0;
-                    const barHeight = buttonsBar.getBoundingClientRect().height || 64;
+                    const barHeight = 64;
+
                     // Limites
-                    const minTop = Math.max(16, titleBottom + 16); // abaixo do texto
-                    const maxTop = rect.top - barHeight - 16;        // acima dos cards (com margem)
-                    // Posiciona, priorizando NUNCA cobrir os cards
+                    const minTop = Math.max(16, titleBottom + 16); 
+                    const maxTop = rect.top - barHeight - 16;
                     const desired = rect.top - barHeight - 24;
                     const finalTop = Math.min(maxTop, Math.max(minTop, desired));
+
                     if (mobileLandscape) {
-                        buttonsBar.style.right = 'auto';
-                        buttonsBar.style.width = 'auto';
-                        // Coloca o JORNAL à esquerda do grid (sem cobrir as cartas)
-                        const approxBtnW = 120;
-                        const left = Math.max(8, rect.left - approxBtnW - 12);
-                        buttonsBar.style.left = left + 'px';
                         buttonsBar.style.top = Math.max(8, rect.top + 8) + 'px';
-                        buttonsBar.style.transform = 'none';
-                        buttonsBar.style.transformOrigin = 'center top';
-                        buttonsBar.style.justifyContent = 'flex-end';
-                        jornalButton.style.width = '112px';
-                        jornalButton.style.height = '32px';
-                        jornalButton.style.fontSize = '0.82em';
-                        jornalButton.style.letterSpacing = '0.8px';
-                        jornalButton.style.borderRadius = '.6rem';
-                        jornalButton.style.boxShadow = '0 4px 0 #ff1493';
+                        buttonsBar.style.padding = '0 12px';
                     } else {
-                        buttonsBar.style.right = 'auto';
-                        buttonsBar.style.left = rect.left + 'px';
-                        buttonsBar.style.width = rect.width + 'px';
                         buttonsBar.style.top = finalTop + 'px';
-                        buttonsBar.style.transform = `scale(${scale})`;
-                        buttonsBar.style.transformOrigin = 'left top';
-                        buttonsBar.style.justifyContent = 'center';
-                        jornalButton.style.width = '184px';
-                        jornalButton.style.height = '48px';
-                        jornalButton.style.fontSize = '1.125em';
-                        jornalButton.style.letterSpacing = '2px';
-                        jornalButton.style.borderRadius = '.75rem';
-                        jornalButton.style.boxShadow = '0 8px 0 #ff1493';
+                        buttonsBar.style.padding = '0 32px';
                     }
+
+                    // Ajustar tamanho dos botões conforme escala
+                    [jornalButton, baleiaButton].forEach(btn => {
+                        btn.style.transform = `scale(${scale}) skew(-10deg)`;
+                        btn.style.pointerEvents = 'auto';
+                    });
                 };
 
                 // Criar botão TAMBÉM TE AMO
@@ -2625,33 +2610,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     document.body.appendChild(envelopeOverlay);
                 });
 
-                // Criar botão NÃO TE AMO
-                const cryButton = document.createElement('button');
-                cryButton.id = 'cryButton';
-                cryButton.textContent = 'NÃO TE AMO';
-                cryButton.style.cssText = `
-                    width: 184px;
-                    height: 48px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    gap: 1rem;
-                    font-size: 1.125em;
-                    font-weight: 800;
-                    letter-spacing: 2px;
-                    color: #fff;
-                    background: linear-gradient(45deg, #ff69b4, #ff1493);
-                    border: 2px solid #ff1493;
-                    border-radius: .75rem;
-                    box-shadow: 0 8px 0 #ff1493;
-                    transform: skew(-10deg);
-                    filter: drop-shadow(0 10px 10px #ff0095);
-                    transition: all .1s ease;
-                    font-family: 'Evil Empire', sans-serif;
-                    z-index: 1;
-                `;
-                cryButton.addEventListener('click', backgroundEffects.createCryVideo);
-
                 // Criar botão JORNAL
                 const jornalButton = document.createElement('button');
                 jornalButton.id = 'jornalButton';
@@ -2678,7 +2636,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     z-index: 1;
                 `;
 
-                // Criar botão BALEIA (embaixo de JORNAL)
+                // Criar botão BALEIA
                 const baleiaButton = document.createElement('button');
                 baleiaButton.id = 'baleiaButton';
                 baleiaButton.textContent = 'BALEIA';
@@ -2898,31 +2856,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 [jornalButton, baleiaButton].forEach(button => {
                     button.addEventListener('mousedown', () => {
                         button.style.letterSpacing = '0px';
-                        button.style.transform = 'skew(-10deg) translateY(8px)';
+                        const currentTransform = button.style.transform;
+                        if (!currentTransform.includes('translateY')) {
+                            button.style.transform = `${currentTransform} translateY(8px)`;
+                        }
                         button.style.boxShadow = '0 0 0 #654dff63';
                     });
 
                     button.addEventListener('mouseup', () => {
                         button.style.letterSpacing = '2px';
-                        button.style.transform = 'skew(-10deg)';
+                        button.style.transform = button.style.transform.replace(/translateY\([^)]+\)/, '').trim();
                         button.style.boxShadow = '0 8px 0 #ff1493';
                     });
                 });
 
-                // Criar container vertical para JORNAL e BALEIA
-                const jornalBaleiaContainer = document.createElement('div');
-                jornalBaleiaContainer.style.cssText = `
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    gap: 12px;
-                `;
-                jornalBaleiaContainer.appendChild(jornalButton);
-                jornalBaleiaContainer.appendChild(baleiaButton);
-
-                // Adicionar os botões à barra e posicionar
-                buttonsBar.appendChild(cryButton);
-                buttonsBar.appendChild(jornalBaleiaContainer);
+                // Adicionar os botões à barra (BALEIA na esquerda, JORNAL na direita)
+                buttonsBar.appendChild(baleiaButton);
+                buttonsBar.appendChild(jornalButton);
                 
                 document.body.appendChild(buttonsBar);
                 positionButtonsBar();

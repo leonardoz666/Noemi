@@ -2733,11 +2733,54 @@ document.addEventListener('DOMContentLoaded', () => {
                     font-family: 'Evil Empire', sans-serif;
                     z-index: 1;
                 `;
+                const layoutJornalOverlay = (overlayEl, frameEl, closeBtnEl) => {
+                    if (!overlayEl || !frameEl || !closeBtnEl) return;
+                    const mobileLandscape = window.matchMedia('(max-width: 1024px) and (orientation: landscape)').matches;
+
+                    overlayEl.style.padding = mobileLandscape ? '10px 12px 14px' : '0';
+                    overlayEl.style.boxSizing = 'border-box';
+
+                    if (mobileLandscape) {
+                        frameEl.style.width = 'min(96vw, 1100px)';
+                        frameEl.style.height = 'min(92dvh, 680px)';
+                        frameEl.style.maxWidth = '96vw';
+                        frameEl.style.maxHeight = '92dvh';
+                        frameEl.style.borderRadius = '14px';
+                        frameEl.style.boxShadow = '0 18px 50px rgba(0,0,0,0.55)';
+                        frameEl.style.overflow = 'hidden';
+
+                        closeBtnEl.style.top = '10px';
+                        closeBtnEl.style.right = '14px';
+                        closeBtnEl.style.width = '40px';
+                        closeBtnEl.style.height = '40px';
+                        closeBtnEl.style.fontSize = '26px';
+                        closeBtnEl.style.lineHeight = '26px';
+                    } else {
+                        frameEl.style.width = '100%';
+                        frameEl.style.height = '100%';
+                        frameEl.style.maxWidth = '';
+                        frameEl.style.maxHeight = '';
+                        frameEl.style.borderRadius = '';
+                        frameEl.style.boxShadow = '';
+                        frameEl.style.overflow = '';
+
+                        closeBtnEl.style.top = '16px';
+                        closeBtnEl.style.right = '24px';
+                        closeBtnEl.style.width = '48px';
+                        closeBtnEl.style.height = '48px';
+                        closeBtnEl.style.fontSize = '32px';
+                        closeBtnEl.style.lineHeight = '32px';
+                    }
+                };
+
                 jornalButton.addEventListener('click', () => {
                     const existing = document.getElementById('jornalOverlay');
                     if (existing) {
-                        existing.style.display = 'block';
+                        existing.style.display = 'flex';
                         document.body.style.overflow = 'hidden';
+                        const frameEl = existing.querySelector('iframe');
+                        const closeBtnEl = existing.querySelector('button');
+                        layoutJornalOverlay(existing, frameEl, closeBtnEl);
                         // Esconder o player de música
                         const audioPlayer = document.getElementById('globalAudioPlayer');
                         if (audioPlayer) audioPlayer.style.display = 'none';
@@ -2783,7 +2826,17 @@ document.addEventListener('DOMContentLoaded', () => {
                         cursor: pointer;
                         z-index: 10060;
                     `;
+                    layoutJornalOverlay(overlay, frame, closeBtn);
+
+                    const onResize = () => layoutJornalOverlay(overlay, frame, closeBtn);
+                    window.addEventListener('resize', onResize);
+                    ;['fullscreenchange', 'webkitfullscreenchange', 'mozfullscreenchange', 'MSFullscreenChange']
+                        .forEach(evt => document.addEventListener(evt, onResize));
+
                     function closeOverlay() {
+                        window.removeEventListener('resize', onResize);
+                        ;['fullscreenchange', 'webkitfullscreenchange', 'mozfullscreenchange', 'MSFullscreenChange']
+                            .forEach(evt => document.removeEventListener(evt, onResize));
                         overlay.remove();
                         document.body.style.overflow = '';
                         // Fora da tela de senha, player permanece oculto

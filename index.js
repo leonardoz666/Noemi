@@ -2386,18 +2386,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Verificar se os botões já existem antes de criar
             if (!document.getElementById('loveButton')) {
-                // Barra de botões (BALEIA na esquerda, JORNAL na direita)
+                // Barra de botões (JORNAL em cima, BALEIA em baixo, no canto esquerdo)
                 const buttonsBar = document.createElement('div');
                 buttonsBar.id = 'buttonsBar';
                 buttonsBar.style.cssText = `
                     position: fixed;
                     display: flex;
-                    justify-content: space-between;
-                    align-items: center;
+                    flex-direction: column;
+                    justify-content: flex-start;
+                    align-items: flex-start;
                     padding: 0 24px;
                     z-index: 9999;
                     left: 0;
-                    right: 0;
+                    gap: 12px;
                     pointer-events: none;
                 `;
 
@@ -2407,7 +2408,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const mobileLandscape = window.matchMedia('(max-width: 1024px) and (orientation: landscape)').matches;
                     const scale = Math.min(1, Math.max(0.75, rect.width / 900));
                     const titleBottom = topText?.getBoundingClientRect()?.bottom || 0;
-                    const barHeight = 64;
+                    const barHeight = 120; // Aumentado para acomodar dois botões empilhados
 
                     // Limites
                     const minTop = Math.max(16, titleBottom + 16); 
@@ -2870,9 +2871,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
                 });
 
-                // Adicionar os botões à barra (BALEIA na esquerda, JORNAL na direita)
-                buttonsBar.appendChild(baleiaButton);
+                // Adicionar os botões à barra (JORNAL em cima, BALEIA em baixo)
                 buttonsBar.appendChild(jornalButton);
+                buttonsBar.appendChild(baleiaButton);
                 
                 document.body.appendChild(buttonsBar);
                 positionButtonsBar();
